@@ -1,0 +1,196 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace mx "library://ns.adobe.com/flex/mx";
+@namespace spark "spark.skins.spark.*";
+
+@font-face { 
+	src: url("src/Fonts/ariali.ttf");  
+	fontFamily: Arial; 
+	fontStyle: normal ; 
+	fontWeight: normal ; 
+	embedAsCFF: true ; 
+	advancedAntiAliasing: true ; 
+}
+
+@font-face { 
+	src: url("src/Fonts/arialbi.ttf");  
+	fontFamily: ArialB; 
+	fontStyle: normal ; 
+	fontWeight: bold ; 
+	embedAsCFF: true ; 
+	advancedAntiAliasing: true ; 
+}
+
+@font-face { 
+	src: url("src/Fonts/ariali.ttf");  
+	fontFamily: ArialMx; 
+	fontStyle: normal ; 
+	fontWeight: normal ; 
+	embedAsCFF: false ; 
+	advancedAntiAliasing: true ; 
+}
+s|Label {
+	fontFamily: Arial;
+	fontSize: 12;
+	fontWeight: bold;
+	height: 20;
+	textAlign: left;
+	verticalAlign: middle;
+	fontStyle: normal;
+}	
+s|Button {
+	fontFamily: Arial;
+	fontSize: 12;
+	fontWeight: bold;
+	color:	#000000;
+	verticalAlign: middle;
+	fontStyle: normal;
+}	
+global
+{
+	color: #000000;
+}
+s|Button {
+	fontFamily: Arial;
+	fontSize: 12;
+	fontWeight: bold;
+	color:	#000000;
+	fontStyle: normal;
+}
+
+mx|ToolTip { 
+	fontFamily: "ArialMX"; 
+	fontSize: 12; 
+	background-color: #EEE21B;
+	fontWeight: bold;
+	color:	#000000;
+	fontStyle: normal;
+	backgroundAlpha: 1;
+	cornerRadius: 5;
+	borderSkin: ClassReference("skins.NESToolTipBorder");
+}
+spark|ButtonSkin {
+	fontFamily: "ArialB";
+	fontSize: 11;
+	fontWeight: bold;
+	color: #000000;
+	cornerRadius: 5;
+	alpha: 1;
+}
+
+#mainBodyBC
+
+{
+	background-color: #4d4b4b;
+	
+}
+
+#headerBC
+{
+	width: 580;
+	height: 85;
+	background-color: #4d4b4b;
+	borderSides: bottom;
+}
+
+#lblOptions 
+{
+	color: #ffffff;
+	fontSize: 10;
+	fontFamily: Arial;
+}
+
+#lblHelp
+{
+	color: #ffffff;
+	fontSize: 10;
+	fontFamily: Arial;
+}
+
+/*Search Term tile */
+
+#termLbl {
+	color: #ffffff;
+	fontSize: 10;
+	}
+/*  end searchtile */
+
+/* Add SearchTile */
+#addSearchLabel{
+	color: #ffffff;
+	fontSize: 12;
+	fontFamily: ArialB;
+}
+/* end Add Search Tile */
+
+/*Message Tile */
+
+#titleLbl {
+	color: #ffffff;
+	fontSize: 11;
+	fontFamily: Arial;	
+	
+}
+#sourceLbl{
+	color: #ffffff;
+	fontSize: 12;
+	fontFamily: ArialB;
+}
+/* End Message Tile */
+
+/* search form*/
+#lblsearchHeader {
+	color: #ffffff;
+	fontSize: 16;	
+	fontFamily: Arial;
+}
+
+#SearchBtn {
+	color: #ffffff;
+	fontSize: 12;
+	fontFamily: ArialB;
+	
+}
+#VRadiogroup s|RadioButton {
+	symbolColor: #FF0000;
+	color: #ffffff;
+	fontSize: 14;
+	fontFamily: Arial;
+	skinClass: ClassReference("skins.radioButton");
+}
+
+
+#searchText{
+	color: #333;
+	fontSize: 14;
+	
+}
+
+#SearchBtn{
+	color: #ffffff;
+	fontSize: 12;	
+}
+
+/* end search */
+
+
+/* alert windows */
+
+mx|Alert {
+	
+	chrome-color: #999999;
+	background-color: #333333;
+	color: #ffffff;
+	font-family: Arial;
+	font-size: 12;
+	
+}
+
+.windowsStyles {
+
+	color: #ffffff;
+	background-color: #666666;
+}
+
+
+/* end alert windows */

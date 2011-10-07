@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%"
+		 creationComplete="initApp()">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayList;
+			
+			private function initApp():void
+			{
+			}
+			public function mySave():void
+			{
+			}	
+			
+		]]>
+	</fx:Script>
+	<s:BorderContainer x="0" y="0" width="100%" height="100%" color="#ffffff" fontFamily="ArialB"
+					   fontSize="12">
+		<s:backgroundFill>
+			<s:LinearGradient rotation="90">
+				<s:GradientEntry color ="{NES.NES_START_GRADIENT}"/>
+				<s:GradientEntry color ="{NES.NES_END_GRADIENT}"/>
+			</s:LinearGradient>
+		</s:backgroundFill>
+		<s:Label color="#FFFFFF"  left="5" top="20" height="20" fontSize="16" fontWeight="bold"
+				 text="Property description" textAlign="left" verticalAlign="middle"/>
+		<s:Label color="#FFFFFF"  left="285" top="20" width="214" height="20" fontSize="16" fontWeight="bold"
+				 text="Conservatory details" textAlign="left" verticalAlign="middle"/>
+		<s:Label color="#FFFFFF"  left="5" top="45" height="20" text="Property type" verticalAlign="middle"/>
+		<s:DropDownList id="propTypeDDL" left="152" top="45" width="110" height="20" color="#000000"
+						selectedIndex="0" >
+			<s:ArrayCollection>
+				<fx:String>House</fx:String>
+				<fx:String>Flat</fx:String>
+			</s:ArrayCollection>
+		</s:DropDownList>
+		<s:Label color="#FFFFFF"  left="283" top="45" height="20" text="Conservatory" verticalAlign="middle"/>
+		<s:DropDownList id="conservatoryDDL" left="407" top="45" width="140" height="20"
+						color="#000000" selectedIndex="0">
+			<s:ArrayCollection>
+				<fx:String>No conservatory</fx:String>
+				<fx:String>1 conservatory</fx:String>
+				<fx:String>2 conservatory</fx:String>
+			</s:ArrayCollection>
+		</s:DropDownList>
+		<s:Label color="#FFFFFF"  left="5" top="65" height="20" text="Built Form" verticalAlign="middle"/>
+		<s:DropDownList id="builtFormDDL" left="152" top="65" width="110" height="20" color="#000000"
+						selectedIndex="0" >
+			<s:ArrayCollection>
+				<fx:String>Detached</fx:String>
+				<fx:String>Semi Detached</fx:String>
+				<fx:String>Bungalow</fx:String>
+			</s:ArrayCollection>
+		</s:DropDownList>
+		<s:Label color="#FFFFFF"  left="285" top="65" width="87" height="20" text="Floor Area" verticalAlign="middle"/>
+		<s:TextInput id="floorAreaTI" left="407" top="65" width="110" height="20" 
+					 enabled="false"/>
+		<s:Label color="#FFFFFF"  left="520" top="65" width="14" height="20" fontSize="10" text="M2"
+				 textAlign="center" verticalAlign="middle"/>
+		<s:Label color="#FFFFFF"  left="5" top="106" height="20" text="Number of Storeys" verticalAlign="middle"/>
+		<s:TextInput id="noStoreysTI" left="152" top="106" width="110" height="20" 
+					 enabled="true"/>
+		<s:Label color="#FFFFFF"  left="285" top="106" height="20" text="Glazed Perimeter" verticalAlign="middle"/>
+		<s:TextInput id="glazedPerimeter" left="407" top="106" width="110" height="20"
+					 color="#000000" enabled="false"/>
+		<s:Label color="#FFFFFF"  left="5" top="85" height="20" text="Measurements" verticalAlign="middle"/>
+		<s:DropDownList id="measurementsDDL" left="152" top="85" width="110" height="20"
+						color="#000000" selectedIndex="0" >
+			<s:ArrayCollection>
+				<fx:String>External</fx:String>
+				<fx:String>Internal</fx:String>
+			</s:ArrayCollection>
+		</s:DropDownList>
+		<s:Label color="#FFFFFF"  left="285" top="85" height="20" text="Double Glazed" verticalAlign="middle"/>
+		<s:DropDownList id="doubleGlazed" left="407" top="85" width="60" height="20" enabled="false"
+						selectedIndex="0">
+			<s:ArrayCollection>
+				<fx:String>Yes</fx:String>
+				<fx:String>No</fx:String>
+			</s:ArrayCollection>
+		</s:DropDownList>
+		<s:Label color="#FFFFFF"  left="519" top="106" height="20" fontSize="10" text="m" textAlign="center" verticalAlign="middle"/>
+		<s:Label color="#FFFFFF"  left="5" top="127" height="20" text="Number of extensions" verticalAlign="middle"/>
+		<s:DropDownList id="noExtensions" left="152" top="127" width="110" height="20"
+						color="#000000" selectedIndex="0" >
+			<s:ArrayCollection>
+				<fx:String>No extensions</fx:String>
+				<fx:String>1 extensions</fx:String>
+				<fx:String>2 extensions</fx:String>
+			</s:ArrayCollection>
+		</s:DropDownList>
+		<s:Label color="#FFFFFF"  left="286" top="126" height="20" text="Height" verticalAlign="middle"/>
+		<s:DropDownList id="conservatoryHeightDDL" left="407" top="126" width="110" height="20"
+						color="#000000" enabled="false" selectedIndex="0" >
+			<s:ArrayCollection>
+				<fx:String>High</fx:String>
+				<fx:String>Medium</fx:String>
+				<fx:String>Low</fx:String>
+			</s:ArrayCollection>
+		</s:DropDownList>
+		<s:Label color="#FFFFFF"  left="5" top="147" height="20" text="Roof rooms present" verticalAlign="middle"/>
+		<s:DropDownList id="roofRoomsDDL" left="152" top="147" width="60" height="20" color="#000000"
+						enabled="false" selectedIndex="0" >
+			<s:ArrayCollection>
+				<fx:String>No</fx:String>
+				<fx:String>Yes</fx:String>
+			</s:ArrayCollection>
+		</s:DropDownList>
+		<s:Label color="#FFFFFF"  left="5" top="168" height="20" text="Terrain" verticalAlign="middle"/>
+		<s:DropDownList id="terrainDDL" left="152" top="168" width="110" height="20" color="#000000"
+						enabled="false" selectedIndex="0" >
+			<s:ArrayCollection>
+				<fx:String>Low rise U/S</fx:String>
+				<fx:String>High rise U/S</fx:String>
+			</s:ArrayCollection>
+		</s:DropDownList>
+		<s:Label color="#FFFFFF"  left="285" top="168" height="20" fontSize="16" fontWeight="bold"
+				 text="Habitable Rooms" textAlign="left" verticalAlign="middle"/>
+		<s:Label color="#FFFFFF"  left="5" top="195" fontSize="16" fontWeight="bold" text="Age" height="20"
+				 textAlign="left" verticalAlign="middle"/>
+		<s:Label color="#FFFFFF"  left="285" top="201" height="20" text="Number of" verticalAlign="middle"/>
+		<s:TextInput id="habitableRoomsTI" left="407" top="201" width="110" height="20"
+					 color="#000000"/>
+		<s:Label color="#FFFFFF"  left="5" top="226" height="20" text="Main" verticalAlign="middle"/>
+		<s:DropDownList id="mainAgeDDL" left="152" top="221" width="110" height="20" color="#000000"
+						enabled="true" selectedIndex="0" >
+			<s:ArrayCollection>
+				<fx:String>Pre 1900</fx:String>
+				<fx:String>1900-1940</fx:String>
+				<fx:String>1941-1960</fx:String>
+				<fx:String>1970-1990</fx:String>
+				<fx:String>1991-2000</fx:String>
+				<fx:String>Post 2000</fx:String>
+			</s:ArrayCollection>
+		</s:DropDownList>
+		<s:Label color="#FFFFFF"  left="285" top="221" height="20" text="Any unheated" verticalAlign="middle"/>
+		<s:DropDownList id="anyUnheated" left="407" top="221" width="60" height="20" color="#000000"
+						enabled="false" selectedIndex="0" >
+			<s:ArrayCollection>
+				<fx:String>Yes</fx:String>
+				<fx:String>No</fx:String>
+			</s:ArrayCollection>
+		</s:DropDownList>
+		<s:Label color="#FFFFFF"  left="5" top="242" height="20" text="Extension 1" verticalAlign="middle"/>
+		<s:DropDownList id="extensionOneDDL" left="152" top="242" width="110" height="20"
+						color="#000000" enabled="true" selectedIndex="0" >
+			<s:ArrayCollection>
+				<fx:String>Pre 1900</fx:String>
+				<fx:String>1900-1940</fx:String>
+				<fx:String>1941-1960</fx:String>
+				<fx:String>1970-1990</fx:String>
+				<fx:String>1991-2000</fx:String>
+				<fx:String>Post 2000</fx:String>
+			</s:ArrayCollection>
+		</s:DropDownList>
+		<s:Label color="#FFFFFF"  left="285" top="242" height="20" text="Number heated" verticalAlign="middle"/>
+		<s:TextInput id="unheatedRoomsTI" left="407" top="242" width="110" height="20"
+					 color="#000000"/>
+		<s:Label color="#FFFFFF"  left="5" top="263" height="20" text="Extension 2" verticalAlign="middle" />
+		<s:DropDownList id="extensionTwoDDL" left="152" top="263" width="110" height="20"
+						color="#000000" enabled="false" selectedIndex="0" >
+						
+			<s:ArrayCollection>
+				<fx:String>Pre 1900</fx:String>
+				<fx:String>1900-1940</fx:String>
+				<fx:String>1941-1960</fx:String>
+				<fx:String>1970-1990</fx:String>
+				<fx:String>1991-2000</fx:String>
+				<fx:String>Post 2000</fx:String>
+			</s:ArrayCollection>
+		</s:DropDownList>
+		<s:Label color="#FFFFFF"  left="285" top="263" height="20" fontSize="16" fontWeight="bold"
+				 text="General" textAlign="left" verticalAlign="middle"/>
+		<s:Label color="#FFFFFF"  left="285" top="285" height="20" text="Kitchen in Zone 1" verticalAlign="middle"/>
+		<s:DropDownList id="kitchenInZoneOneDDL" left="407" top="285" width="60" height="20" color="#000000"
+						enabled="true" selectedIndex="0" >
+			<s:ArrayCollection>
+				<fx:String>No</fx:String>
+				<fx:String>Yes</fx:String>
+			</s:ArrayCollection>
+		</s:DropDownList>
+		<s:Label color="#FFFFFF"  left="5" top="290" height="20" fontSize="16" fontWeight="bold"
+				 text="Location" textAlign="left" verticalAlign="middle"/>
+		<s:Label color="#FFFFFF"  left="5" top="315" height="20" text="Degree day region" verticalAlign="middle" />
+		<s:DropDownList id="degreeDayRegionDDL" left="152" top="315" width="110" height="20"
+						color="#000000" enabled="true" selectedIndex="0" >		
+			<s:ArrayCollection>
+				<fx:String>Thames</fx:String>
+				<fx:String>South West</fx:String>
+				<fx:String>Midlands</fx:String>
+				<fx:String>North East</fx:String>
+				<fx:String>North West</fx:String>
+			</s:ArrayCollection>
+		</s:DropDownList>
+		<s:Label color="#FF0000"  left="264" top="315" height="20" fontSize="12" text="*"
+				 textAlign="center" verticalAlign="middle"/>
+		<s:Label color="#FFFFFF"  left="5" top="336" height="20" text="Height over sea level" verticalAlign="middle"/>
+		<s:TextInput id="heightAboveSeaLevelTI" left="152" top="336" width="110"/>
+		<s:Label color="#FFFFFF"  left="246" top="336" width="12" height="20" fontSize="10" text="m"
+				 textAlign="center" verticalAlign="middle"/>
+		<s:Label color="#FF0000"  left="264" top="336" height="20" fontSize="12" text="*"
+				 textAlign="center" verticalAlign="middle"/>
+		<s:Label color="#FFFFFF"  left="5" top="357" height="20" text="Wind speed" verticalAlign="middle"/>
+		<s:TextInput id="windSpeedTI" left="152" top="357" width="110"/>
+		<s:Label color="#FFFFFF"  left="246" top="357" width="20" height="20" fontSize="10" text="m/s"
+				 textAlign="center" verticalAlign="middle"/>
+		<s:Label color="#FF0000"  left="264" top="357" height="20" fontSize="12" text="*"
+				 textAlign="center" verticalAlign="middle"/>
+		<s:Label color="#FFFFFF"  left="5" top="377" height="20" text="Degree day region" verticalAlign="middle" />
+		<s:DropDownList id="siteExposureDDL" left="152" top="377" width="110" height="20"
+						color="#000000" enabled="true" selectedIndex="0" >		
+			<s:ArrayCollection>
+				<fx:String>Average</fx:String>
+				<fx:String>High</fx:String>
+				<fx:String>Low</fx:String>
+			</s:ArrayCollection>
+		</s:DropDownList>
+		<s:Label color="#FF0000"  left="264" top="377" height="20"  fontSize="12" text="*"
+				 textAlign="center" verticalAlign="middle"/>
+		<s:Label color="#FF0000"  left="5" top="410" height="20" fontSize="16" fontWeight="bold"
+				 text="* NHER specific data" textAlign="left" verticalAlign="middle"/>
+		<s:Label color="#FF0000"  left="469" top="286" height="20" fontSize="12" text="*"
+				 textAlign="center" verticalAlign="middle"/>
+	</s:BorderContainer>
+</s:Group>

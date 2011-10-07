@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Window xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  width="250" height="166" click="myClick(event);" creationComplete="initToast();"
+		  showStatusBar="false" >
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import flash.events.*;
+			
+			import mx.core.IVisualElement;
+			
+			import myEvents.*;
+			
+			import org.osmf.events.TimeEvent;
+			private var myScreen:Screen = Screen.mainScreen;
+			private var alphaTimer:Timer;
+			private var closeTimer:Timer;
+			public var myIVE:IVisualElement;
+			public var mySound:Sound;
+			public var mySource:String = "My Source";
+			public var myTitle:String = "My Title";
+			private function initToast():void
+			{
+				this.nativeWindow.x = myScreen.visibleBounds.width - this.width - 10;
+				this.nativeWindow.y = myScreen.visibleBounds.height - this.height - 10;
+				this.alpha = 0;
+				sourceLbl.text = mySource;
+				titleLbl.text = myTitle;
+				alphaTimer = new Timer(SAP.SAP_TOAST_TIMER_COUNT);
+				alphaTimer.addEventListener(TimerEvent.TIMER,alphaTimer_TimerEvent);
+				closeTimer = new Timer(SAP.SAP_TOAST_TIMER_COUNT);
+				closeTimer.addEventListener(TimerEvent.TIMER, closeTimer_TimerEvent);
+				alphaTimer.start();
+				if (mySound != null)
+					mySound.play();
+			}
+			private function alphaTimer_TimerEvent(event:TimerEvent):void
+			{
+				if (this.alpha > 11)
+				{
+					alphaTimer.stop();
+					closeTimer.start();
+				}
+				else
+				{
+					alphaTimer.stop();
+					this.alpha = this.alpha + SAP.SAP_ALPHA_INCREMENT;
+					sourceLbl.alpha = this.alpha;
+					titleLbl.alpha = this.alpha;
+					alphaTimer.start();
+				}
+			}				
+			private function closeTimer_TimerEvent(event:TimerEvent):void
+			{
+				if (this.alpha < 0.1)
+				{
+					closeTimer.stop();
+					this.close();
+				}
+				else
+				{
+					closeTimer.stop();
+					this.alpha = this.alpha - 0.2;
+					sourceLbl.alpha = this.alpha;
+					titleLbl.alpha = this.alpha;
+					closeTimer.start();
+				}
+			}
+			private function myClick(event:MouseEvent):void
+			{
+				this.close();
+			}
+		]]>
+	</fx:Script>
+<s:BorderContainer id="toastBC" width="100%" height="100%" 
+				   borderColor="{SAP.SAP_COMP_BORDER_OUTER}" borderWeight="2" cornerRadius = "3">
+		<s:backgroundFill>
+			<s:LinearGradient rotation="90">
+				<s:GradientEntry id="startGradient" color="{SAP.SAP_START_GRADIENT}" />
+				<s:GradientEntry id="endGradient" color="{SAP.SAP_END_GRADIENT}" />
+			</s:LinearGradient>
+		</s:backgroundFill>
+	<s:BorderContainer y="5" left="5" right="5" height="30"
+					   borderColor="{SAP.SAP_COMP_BORDER_INNER}" borderWeight="1"
+					   >
+		<s:backgroundFill>
+			<s:LinearGradient rotation="90">
+				<s:GradientEntry color="{SAP.SAP_START_GRADIENT}" />
+				<s:GradientEntry color="{SAP.SAP_START_GRADIENT}" />
+			</s:LinearGradient>
+		</s:backgroundFill>
+		<s:Graphic y="5" x="5" version="1.0" viewHeight="19.5205" viewWidth="19.854" >
+			<s:Group >
+				<s:Path winding="nonZero" data="M15.4546 18.5488L9.95654 15.5957 4.48535 18.5908 5.50781 12.2881 1.05273 7.84326 7.18359 6.8999 9.90088 1.1582 12.6685 6.87842 18.8042 7.77295 14.3823 12.2529 15.4546 18.5488Z" >
+					<s:fill>
+						<s:SolidColor color="#FF0000"/>
+					</s:fill>
+					<s:stroke>
+						<s:SolidColorStroke color="#ffffff" caps="none" weight="1" joints="miter" miterLimit="4"/>
+					</s:stroke>
+				</s:Path>
+			</s:Group>
+		</s:Graphic>
+		
+		<s:Label y="5" x="5" id="sourceLbl" width="100%" height="15" fontSize="14" fontWeight="bold" color="{SAP.SAP_TILE_TEXT_COLOR}" 
+				 text="My Source" textAlign="center"
+				 verticalAlign="middle" fontFamily="Arial">
+			
+		</s:Label>
+	
+	</s:BorderContainer>
+
+	<s:BorderContainer left="5" right="5" top="42" bottom="64"
+					   
+					   borderColor="{SAP.SAP_BORDER_COLOR}" borderWeight="1">
+		<s:backgroundFill>
+			<s:LinearGradient rotation="90">
+				<s:GradientEntry color="{SAP.SAP_START_GRADIENT}" />
+				<s:GradientEntry color="{SAP.SAP_END_GRADIENT}" />
+			</s:LinearGradient>
+		</s:backgroundFill>
+		<s:Label x="5" id="titleLbl" width="100%" top="5" height="30" fontSize="14" fontWeight="normal"
+				 text="My Title" textAlign="left" verticalAlign="middle"  fontFamily="Arial"
+				 color="{SAP.SAP_TILE_TEXT_COLOR}">
+		</s:Label>	
+	</s:BorderContainer>
+
+</s:BorderContainer>
+	
+
+</s:Window>

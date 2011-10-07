@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SkinnablePopUpContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+						   xmlns:s="library://ns.adobe.com/flex/spark" 
+						   xmlns:mx="library://ns.adobe.com/flex/mx" width="200" height="127"
+						   creationComplete="initComponent();">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+
+	<fx:Script>
+		<![CDATA[
+			import flash.events.MouseEvent;
+			
+			public var myText:String = "My Text";
+			protected function initComponent():void
+			{
+				okBtn.addEventListener(MouseEvent.CLICK, okBtnClick);
+				titleLbl.text = "NES System Error";
+				textLbl.text =myText + "\n Please try again Later";
+			}
+			protected function okBtnClick(event:MouseEvent):void
+			{
+				this.close(true,"-1");
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:BorderContainer id="myBC" width="100%" height="143" borderColor="{SAP.SAP_COMP_BORDER_OUTER}" borderWeight="2">
+		<s:backgroundFill>
+			<s:LinearGradient rotation="90">
+				<s:GradientEntry id="startGradient" color="{SAP.SAP_START_GRADIENT}" />
+				<s:GradientEntry id="endGradient" color="{SAP.SAP_END_GRADIENT}" />
+			</s:LinearGradient>
+		</s:backgroundFill>
+		
+		<s:BorderContainer id="alertHeader" left="2" right="2" top="2" height="34"
+						   borderColor="{SAP.SAP_COMP_BORDER_OUTER}" borderWeight="1">
+			<s:backgroundFill>
+				<s:LinearGradient rotation="90">
+					<s:GradientEntry id="alert_header_startGradient" color="{SAP.SAP_START_GRADIENT}" />
+					<s:GradientEntry id="alert_header_endGradient" color="{SAP.SAP_END_GRADIENT}" />
+				</s:LinearGradient>
+			</s:backgroundFill>
+			<s:Label id="titleLbl" left="2" right="2" top="2" height="20" color="{SAP.SAP_TILE_TEXT_COLOR}" fontFamily="Arial"
+					 fontSize="12" fontWeight="bold" text="My Title" textAlign="center"
+					 verticalAlign="middle">
+			</s:Label>
+		</s:BorderContainer>
+		
+		<s:BorderContainer id="alertMessage" left="2" right="0" top="44" height="86"
+						   borderColor="{SAP.SAP_COMP_BORDER_OUTER}" borderWeight="1">
+			<s:backgroundFill>
+				<s:LinearGradient rotation="90">
+					<s:GradientEntry id="alert_message_startGradient" color="{SAP.SAP_START_GRADIENT}" />
+					<s:GradientEntry id="alert_message_endGradient" color="{SAP.SAP_END_GRADIENT}" />
+				</s:LinearGradient>
+			</s:backgroundFill>
+			<s:Label id="textLbl" y="6" left="4" right="4" fontFamily="Arial" fontSize="12"
+					 fontWeight="normal" text="My Title" textAlign="center" verticalAlign="middle">
+			</s:Label>
+			
+		</s:BorderContainer>
+		
+	</s:BorderContainer>
+	<s:Button id="okBtn" x="68" y="93" label="OK" skinClass="skins.alertBtn" click="okBtnClick(event)">
+	</s:Button>
+</s:SkinnablePopUpContainer>

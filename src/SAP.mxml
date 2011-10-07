@@ -1,0 +1,931 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					   minWidth="500" minHeight="400"
+					   width="500" height="400"
+					   applicationComplete="appComplete();"
+					   initialize="initApp();"
+					   activate="resizeApp();"
+					   showStatusBar="false">
+	<s:states>
+		<s:State name="startupSTATE"/>
+		<s:State name="emptySTATE"/>
+	</s:states>
+	<fx:Style source="nes.css"/>
+
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import flashx.textLayout.events.SelectionEvent;
+			
+			import mx.collections.IList;
+			import mx.messaging.events.MessageEvent;
+			
+			import org.osmf.events.TimeEvent;
+			
+			import spark.events.GridEvent;
+			import spark.events.GridSelectionEvent;
+			//Constants			
+			public static const SAP_VERSION:String = "1.2.0";
+			public static const SAP_BGCOLOR_STR:String = "#666666";
+			public static const SAP_BGCOLOR:uint = 0x666666;
+			public static const SAP_SELCOLOR:uint = 0x0000FF;
+			public static const SAP_BORDER_COLOR:uint = 0x999999;
+			public static const SAP_BORDER_SELCOLOR:uint = 0xCC0066;
+			public static const SAP_CLICKCOLOR:uint = 0x000000;
+			public static const SAP_BORDER_CLICKCOLOR:uint = 0xff0022;
+			public static const SAP_TEXT_COLOR:uint = 0x000000;
+			public static const SAP_TEXT_BGCOLOR:uint = 0xFFFFFF;
+			public static const SAP_TEXT_SELCOLOR:uint = 0x2200ff;
+			public static const SAP_TEXT_BORDER:uint = 0xFFFFFF;
+			public static const SAP_START_GRADIENT:uint = 0x000000;
+			public static const	SAP_END_GRADIENT:uint = 0x555555;
+			public static const SAP_COMP_BORDER_OUTER:uint = 0xFFFFFF;
+			public static const SAP_COMP_BORDER_INNER:uint = 0xCCCCCC;
+			public static const SAP_OKBTN_BGCOLOR:uint = 0x339900;
+			public static const SAP_CANCELBTN_BGCOLOR:uint = 0xD40055;
+			public static const SAP_HTML_LBL_TEXT:uint = 0x7D7D7D;
+			public static const SAP_GROUP_BGCOLOR:uint = 0x000000;
+			public static const SAP_BIG_BORDER:uint = 0x999999;
+			public static const SAP_BOX_BORDER:uint = 0x999999;
+			public static const SAP_TILE_BGCOLOR:uint = 0x676767;
+			public static const SAP_TILE_BORDER:uint = 0x999999;
+			public static const SAP_TILE_TEXT_COLOR:uint = 0xFFFFFF;			
+			public static const SAP_ALPHA_INCREMENT:Number = 0.2;
+			public static const SAP_MESSAGE_CHECK_TIMER:Number = 20000;
+			public static const SAP_NORMAL_HEIGHT:Number = 560;
+			public static const SAP_TOAST_TIMER_COUNT:Number = 65;
+			public static const SAP_TOAST_ALPHA_INCREMENT:Number = 0.2;
+			public static const SAP_STATE_STARTUP:String = "startupSTATE";
+			public static const SAP_STATE_EMPTY:String = "emptySTATE";
+			public static const SAP_DB_NAME:String = "NES.db";
+			private static const FUNCTION_DROP_TABLE:String = "DROP_TABLE";
+			private static const FUNCTION_DROP_ITEM:String = "DROP_ITEM";
+			private static const FUNCTION_CREATE_TABLE:String = "CREATE_TABLE";
+			private static const FUNCTION_CREATE_INDEX:String = "CREATE_INDEX";
+			private static const FUNCTION_CREATE_ITEM:String = "CREATE_ITEM";
+			private static const FUNCTION_INSERT_HISTORY:String = "INSERT_HISTORY";
+			private static const FUNCTION_INSERT_MAIN:String = "INSERT MAIN";
+			private static const FUNCTION_INSERT_ITEM:String = "INSERT ITEM";
+			private static const FUNCTION_OPEN:String = "OPEN";
+			private static const FUNCTION_CLOSE:String = "CLOSE";
+			private static const FUNCTION_BEGIN_MAIN:String = "BEGIN_MAIN";
+			private static const FUNCTION_BEGIN_ITEM:String = "BEGIN_ITEM";
+			private static const FUNCTION_COMMIT_MAIN:String = "COMMIT_MAIN";
+			private static const FUNCTION_COMMIT_ITEM:String = "COMMIT_ITEM";
+			private static const TABLE_TYPE_TABLE:String = "table";
+			private static const TABLE_TYPE_CONTROL:String = "control";			
+			//			public static const SAP_DOWNLOAD_URL:String = "http://www.sedbuk.com/data1/pcdf2009.dat";
+			public static const SAP_DOWNLOAD_URL:String = "http://localhost/pcdf2009.dat";
+			public static const NEWS_OTHER:String = "nesOther"; //SM 23/09/2011 v1.1.6
+			public static const SAP_EOF:String = "EOF";
+			//Images			
+			[Bindable]			
+			[Embed (source="img/blackChrome.png")]
+			private var myChrome:Class;
+			
+			[Bindable]			
+			[Embed (source="img/nes16x16.png")]
+			private var trayImage:Class;
+			[Bindable]			
+			[Embed (source="img/nes16x16.png")]
+			private var greyImage:Class;
+			//Libraries
+			import air.net.URLMonitor;
+			import flash.data.SQLStatement;
+			import flash.errors.SQLError;
+			import flash.data.SQLConnection;
+			import flash.events.Event;
+			import flash.events.SQLErrorEvent;
+			import flash.events.SQLEvent;
+			import flash.events.TimerEvent;
+			import flash.filesystem.File;
+			import flash.utils.Timer;			
+			import flash.display.Graphics;
+			import flash.display.GraphicsSolidFill;
+			import flash.display.NativeWindow;
+			import flash.display.NativeWindowInitOptions;
+			import flash.display.NativeWindowSystemChrome;
+			import flash.display.NativeWindowType;
+			import flash.display.Screen;
+			import flash.display.Sprite;
+			import flash.display.StageAlign;
+			import flash.display.StageScaleMode;
+			import flash.events.*;
+			import flash.html.*;
+			import flash.html.HTMLLoader;
+			import flash.media.*;
+			import flash.net.*;
+			import flash.text.TextField;
+			import flash.utils.Timer;
+			import mx.collections.ArrayCollection;
+			import mx.core.*;
+			import mx.events.CloseEvent;
+			import mx.events.StateChangeEvent;
+			import mx.events.ItemClickEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.http.HTTPService;
+			import mx.states.*;			
+			import myContainers.*;
+			import myEvents.*;
+			import myObjects.*;
+			import myArrays.*;
+			import myModules.*;
+			import spark.components.Label;
+			import spark.primitives.Rect;
+			import spark.events.ElementExistenceEvent;
+			import spark.components.SkinnablePopUpContainer;
+			import spark.events.PopUpEvent;
+			import mx.managers.PopUpManager;
+			//Variables
+			private var newInstallFlag:Boolean = false;
+			private var myLocalSO:SharedObject = SharedObject.getLocal("nes","/");
+			private var playSoundFlag:Boolean = true;
+			private var	mySound:Sound;
+			private var clickSound:Sound;
+			private var myScreen:Screen = Screen.mainScreen;
+			private var ourTitle:String = "Home page";
+			private var debugFlag:Boolean = false;
+			private var mySoundRequest:URLRequest;
+			private var clickSoundRequest:URLRequest;
+			private var iconMenu:NativeMenu = new NativeMenu();
+			private var iconLoader:Loader = new Loader();
+			private var macOSFlag:Boolean = false;
+			private var ourMonitor:URLMonitor;
+			private var connectedFlag:Boolean = true;
+			private var stillStartingFlag:Boolean = true;
+			private var ourDeleteRequestIVE:IVisualElement;
+			private var myPopup:sAlertCOB;
+			private var myOKCancel:sOKCancelCOB;
+			private var sqlConn:SQLConnection = new SQLConnection();
+			private var sqlStmnt:SQLStatement = new SQLStatement();
+			private var currentPostion:Number = 0;
+			private var currentInsertRec:Number = 0;
+			private var insertRecArray:Array = new Array();
+			private var insertDetail:Array = new Array();
+			private var mySQLResult:SQLSchemaResult;
+			private var myTables:Array = new Array();
+			private var myDB:File = File.applicationStorageDirectory.resolvePath(SAP_DB_NAME);
+			
+			[Bindable]
+			private var statusAC:ArrayCollection = new ArrayCollection();
+			private var lastDate:Date = new Date();
+			private var firstDate:Date;
+			public var myOK:String = "1";
+			public var myCancel:String = "-1";
+			private var myFocus:int = 0;
+			private var myDownload:HTTPService;
+			private var downloadRaw:String;
+			private var downloadLines:Array = new Array();
+			private var myDict:DataDictionary;
+			private var myCount:int = 0;
+			private var dropTablesTimer:Timer = new Timer(500,1);
+			private var EOF:Boolean = false;	
+			private var myFPE:FinishProcess;
+			private var currentTable:String = "";
+			private var currentFunction:String = "";
+			private var currentCount:int = 0;
+			private var currentIndex:IndexStructure;
+			private var currentItems:ArrayCollection;
+			private var currentStatus:Boolean = true;
+			private var currentType:String;
+			private var currentLine:String;
+			private var currentControl:int = 0;
+			private var currentFormat:int;
+			private var currentRevision:int;
+			private var currentYear:String;
+			private var currentMonth:String;
+			private var currentDay:String;
+			private var currentData:String;
+			private var newControl:Boolean = false;
+			private var dropTableList:Array = new Array();
+			private var insertMainList:Array = new Array();
+			private var insertItemList:Array = new Array();
+			private var myHistoryAC:UpdateHistoryArray = new UpdateHistoryArray();
+			private var mySQL:String;
+			private var failedFlag:Boolean = false;
+						
+			private function initApp():void
+			{
+				var myDate:Date = new Date();
+				if (myLocalSO.data.installDate == undefined)
+				{
+					newInstallFlag = true;
+					myLocalSO.data.installDate = myDate.toUTCString();
+				}
+				myLocalSO.data.lastStartDate = myDate.toUTCString();
+				myLocalSO.flush();
+				this.addEventListener(MinimizeEvent.NES_MINIMIZE_EVENT,GOT_MinimizeEvent)
+			}
+			private function appComplete():void
+			{
+				currentState = SAP_STATE_STARTUP;				
+				this.addEventListener(StateChangeEvent.CURRENT_STATE_CHANGE,GOT_StateChangeEvent);	
+				ourMonitor = new URLMonitor(new URLRequest('http://www.nesltd.c.uk'));
+				ourMonitor.addEventListener(StatusEvent.STATUS, GOT_ourMonitor);
+				ourMonitor.start();
+				stage.nativeWindow.addEventListener(Event.CLOSE,appClose);
+				setupSystemTray();
+				addEventListener(FinishProcess.NES_FINISH_PROCESS, GOT_finishProcessEvent);
+				myDownload = new HTTPService(SAP_DOWNLOAD_URL);
+				myDownload.url = SAP_DOWNLOAD_URL;
+				myDownload.method = "GET";
+				myDownload.resultFormat = "text";				
+				myDownload.addEventListener(ResultEvent.RESULT,GOT_myDownload);
+				myDownload.addEventListener(FaultEvent.FAULT,ERROR_myDownload);
+				myDict = new DataDictionary();
+				myDict.initialize();
+				myDict.sqlConn.addEventListener(SQLEvent.RESULT,GOT_sqlResult);
+				myDict.sqlConn.addEventListener(SQLErrorEvent.ERROR,GOT_sqlError);
+				myDict.sqlStmnt.addEventListener(SQLEvent.RESULT,GOT_sqlResult);
+				myDict.sqlStmnt.addEventListener(SQLErrorEvent.ERROR,GOT_sqlError);
+				myDict.sqlConn.addEventListener(SQLEvent.OPEN,GOT_sqlResult);
+				myDict.sqlConn.addEventListener(SQLEvent.BEGIN,GOT_sqlResult);
+				myDict.sqlConn.addEventListener(SQLEvent.COMMIT,GOT_sqlResult);
+				myDict.myDB = myDB;
+				
+				updateDBBtn.setFocus();
+				for (var i:int=0; i < myDict.DBTableAC.length;i++)
+				{
+					var myTableStructure:TableStructure = myDict.DBTableAC[i] as TableStructure;
+					dropTableList.push(myTableStructure.tableName);
+				}
+				currentFunction = FUNCTION_OPEN;
+				myDict.sqlConn.openAsync(myDB);
+			}
+			private function exitBtn_clickHandler(event:MouseEvent):void
+			{
+				var myME:MinimizeEvent = new MinimizeEvent(MinimizeEvent.NES_MINIMIZE_EVENT);
+				dispatchEvent(myME);
+			}
+			protected function GOT_myDownload(event:ResultEvent):void
+			{
+				downloadRaw = event.result as String;
+				downloadLines = downloadRaw.split("\r\n");
+				addText("Data retrieved... Number of lines = " + downloadLines.length.toString());
+				dropTable();
+			}
+			protected function processLines():void
+			{
+				currentStatus = getNextControlLine("processLines")
+				if (downloadLines.length == 0 || EOF || (!currentStatus))
+				{						
+					myFPE = new FinishProcess(FinishProcess.NES_FINISH_PROCESS,currentLine,currentStatus,EOF);
+					dispatchEvent(myFPE);
+					return;
+				}
+				else
+				{
+					processTable();
+					return;
+				}
+			}
+			protected function processTable():void
+			{
+				var myTableListItem:TableListItem = myDict.getTableListItem(currentControl)
+				if (myTableListItem.tableName == "EOF")
+				{
+					addText("Unknown control code: " + currentControl.toString());
+					if (!getNextControlLine("process Table"))
+					{
+						processLines();
+						return;
+					}
+				}
+				if (myTableListItem.tableName == "boilerSolidFuel")
+					var myVar:String = "Stuff";
+				if (myTableListItem.tableName == "lastRow")
+				{
+					EOF = true;
+					processLines();
+					return;	
+				}
+				
+				currentTable = myTableListItem.tableName;
+				currentType = myTableListItem.tableType;
+				var isColumns:Boolean = myDict.checkColumns(currentTable);
+				var myArray:Array = new Array();
+				myArray = currentLine.split(",");
+				if (myArray.length > 3 && currentType == TABLE_TYPE_CONTROL)
+				{
+					insertHistory("ProcessTable");
+					return;						
+				}
+				if (currentType != TABLE_TYPE_TABLE)
+				{
+					processLines();
+					return;
+				}
+				if (!isColumns)
+				{
+					addText("No columns for table " + currentTable);
+					processLines();
+					return;
+				}
+				createTable(currentControl);
+			}
+			protected function buildTableArray():Boolean
+			{
+				currentCount = 0;
+				var myArray:Array = new Array();
+				if (newControl)
+					if (!getNextLine("buildTableArrayStart"))
+						return false;
+				while (!newControl)
+				{
+					if (currentData == SAP_EOF || currentData.length == 0)
+					{
+						newControl = true;
+						break;
+					}
+					myArray.push(currentData);
+					currentCount++;
+					if (!getNextLine("processTable while"))
+					{
+						currentStatus = false;
+						newControl = true;
+						break;
+					}
+				}
+				insertMainList = myDict.buildMainInsert(currentTable, myArray);
+				insertItemList = myDict.myItemStack;
+				if (insertMainList.length == 0)
+					return false;
+				return true;
+			}
+			protected function insertMainRow():void
+			{
+				if (insertMainList.length == 0)
+				{
+					currentFunction = FUNCTION_COMMIT_MAIN;
+					myDict.sqlConn.commit();
+					addText("Loaded " + currentTable + " : " + currentCount.toString() + " records loaded");
+					return;
+				}
+				currentFunction = FUNCTION_INSERT_MAIN;
+				mySQL = insertMainList.shift();
+				myDict.sqlStmnt.text = mySQL;
+				myDict.sqlStmnt.execute();
+			}
+			protected function insertItemRow():void
+			{
+				if (insertItemList.length == 0)
+				{
+					currentFunction = FUNCTION_COMMIT_MAIN;
+					myDict.sqlConn.commit();
+					return;
+				}
+				currentFunction = FUNCTION_INSERT_ITEM;
+				mySQL = insertItemList.shift();
+				myDict.sqlStmnt.text = mySQL;
+				myDict.sqlStmnt.execute();
+			}
+			
+			protected function getNextLine(source:String):Boolean
+			{
+				currentLine = "#"
+				newControl = false;
+				var myRevDate:String;
+				var myUH:UpdateHistory;
+				var myTable:String;
+				while (downloadLines.length > 0 && currentLine.charAt(0) == "#")
+				{
+					currentLine = downloadLines.shift();
+					if (currentLine.charAt(0) == "$")
+					{
+						currentControl = int(currentLine.substr(1,3));
+						currentData = currentLine;
+						newControl = true;
+						var myArray:Array = currentData.split(","); 
+						if (currentControl == 1)
+						{
+							currentFormat = -1;
+							currentRevision = int(myArray[1]);
+							currentYear = myArray[2];
+							currentMonth = myArray[3];
+							currentDay = myArray[4];
+						}
+						else
+							if (currentControl != 999)
+							{
+								currentFormat = int(myArray[1]);
+								currentRevision = int(myArray[2]);
+								currentYear = myArray[3];
+								currentMonth = myArray[4];
+								currentDay = myArray[5];
+							}
+						if (currentControl != 999)
+						{
+							myTable = myDict.getTableName(currentControl);
+							myRevDate = currentYear + "/" + myDict.padZero(currentMonth) + "/" + myDict.padZero(currentYear);
+							myUH = new UpdateHistory(true,myTable,currentFormat,currentRevision,myRevDate,0);
+							myHistoryAC.addItem(myUH);	
+						}
+					}
+					else
+						currentData = currentLine
+				}
+				if (downloadLines.length == 0)
+				{					
+					currentLine = SAP_EOF;
+					return false;					
+				}
+				return true;
+			}
+			protected function getNextControlLine(source:String):Boolean
+			{
+				var myReturn:Boolean = true;
+				newControl = false;
+				while (newControl == false && myReturn == true)
+				{
+					currentStatus = getNextLine("getNextControlLine "+ source);
+					return currentStatus;
+				}
+				if (newControl)
+					return true;
+				return false;
+			}
+			protected function ERROR_myDownload(event:FaultEvent):void
+			{
+				failedFlag = true;
+				addText("Unable to fetch data...\n" + event.messageId);
+				updateDBBtn.enabled = true;				
+			}
+			protected function dropTable():void
+			{
+				currentTable = dropTableList.pop();
+				currentFunction = FUNCTION_DROP_TABLE;
+				addText ("Dropping table: " + currentTable);
+				myDict.dropTable(currentTable);
+			}
+			protected function dropItem():void
+			{
+				currentFunction = FUNCTION_DROP_ITEM;
+				myDict.dropItem(currentTable);
+			}
+			protected function createTable(inTableNO:int):void
+			{
+				currentTable = myDict.getTableName(inTableNO);
+				currentFunction = FUNCTION_CREATE_TABLE;
+				addText ("Creating table: " + currentTable);
+				myDict.createTable(currentTable);
+			}
+			protected function createItem():void
+			{
+				currentFunction = FUNCTION_CREATE_ITEM;
+				addText ("Creating items table: " + currentTable);
+				myDict.createItem(currentTable);
+			}
+			protected function beginMain():void
+			{
+				currentFunction = FUNCTION_BEGIN_MAIN;
+				myDict.sqlConn.begin();
+			}
+			protected function beginItem():void
+			{
+				currentFunction = FUNCTION_BEGIN_ITEM;
+				myDict.sqlConn.begin();
+			}
+			protected function insertHistory(s:String):void
+			{
+				var myDate:String = myDict.nowStr()
+				var myHist:UpdateHistory = myHistoryAC.getHistory(currentTable);
+				currentFunction = FUNCTION_INSERT_HISTORY;
+				
+				if (currentTable == "updateHistory")
+					myDict.insertHistory(currentTable,myHist.revisionNO,myDate);
+				else
+					myDict.insertHistory(currentTable,myHist.revisionNO, myHist.revisionDate,myHist.formatNO, currentCount);
+			}
+			protected function addText(myText:String):void
+			{
+				statusLbl.text = myText;
+				var myDate:Date = new Date()
+				var mySecs:Number = (myDate.valueOf() - lastDate.valueOf()) / 1000;
+				var timeTaken:int = int(Math.round(mySecs));
+				var actualTime:String = 	myDict.padZero(myDate.hours.toString()) + ":" +
+											myDict.padZero(myDate.minutes.toString()) + ":" +
+											myDict.padZero(myDate.seconds.toString()) + ":" +
+					   						myDate.milliseconds.toString();
+				var myStatus:StatusDataGrid = new StatusDataGrid(myText,actualTime,timeTaken);
+				statusAC.addItemAt(myStatus,0);
+				lastDate = myDate;
+			}
+			protected function GOT_finishProcessEvent(event:Object):void
+			{
+				var myDate:Date = new Date();
+				var myTime:Number = Math.round((myDate.valueOf() - firstDate.valueOf()) / 1000);
+				addText("Total time taken: " + myTime.toString());
+				if (!failedFlag)
+					addText("Closing DB loader  successfully");						
+				else
+					addText("Closing DB loader with problems");
+				updateDBBtn.enabled = true;
+			}
+			protected function GOT_sqlResult(event:SQLEvent):void
+			{
+				switch (currentFunction)
+				{
+					case FUNCTION_OPEN :
+						myDict.sqlStmnt.sqlConnection = myDict.sqlConn;
+						break;
+					case FUNCTION_DROP_TABLE :
+						dropItem();
+						break;
+					case FUNCTION_DROP_ITEM :
+						if (dropTableList.length > 0)
+							dropTable();
+						else
+							createTable(-1);
+						break;
+					case FUNCTION_CREATE_TABLE :
+						var myDate:Date = new Date();
+						currentIndex = myDict.getIndex(currentTable);
+						currentItems = myDict.getItemColumns(currentTable);
+						if (currentTable == "updateHistory")
+							insertHistory("AfterCreateTable");
+						else
+						{
+							if (currentIndex.valid)
+							{
+								currentFunction = FUNCTION_CREATE_INDEX;
+								myDict.createIndex(currentIndex);
+							}
+							else
+							{
+								if (currentItems.length > 0)
+									createItem();
+								else
+								{
+									if (buildTableArray())
+										beginMain();
+									else
+										processLines();
+								}
+							}
+						}
+						break;
+					case FUNCTION_CREATE_INDEX :
+						if (currentItems.length > 0)
+							createItem();
+						else
+						{
+							if (buildTableArray())
+								beginMain();
+							else
+								processLines();
+						}
+						break;
+					case FUNCTION_CREATE_ITEM :
+						if (buildTableArray())
+							beginMain();
+						else
+							processLines();
+						break;
+					case FUNCTION_INSERT_HISTORY :
+						processLines();
+						break;
+					case FUNCTION_BEGIN_MAIN :
+						insertMainRow();
+						break;
+					case FUNCTION_BEGIN_ITEM :
+						insertItemRow();
+						break;
+					case FUNCTION_INSERT_MAIN :
+						insertMainRow();
+						break;
+					case FUNCTION_COMMIT_MAIN :
+						if (insertItemList.length > 0)
+							beginItem();
+						else
+							insertHistory("AfterCommit");
+						break;
+					case FUNCTION_INSERT_ITEM :
+						insertItemRow();
+						break;
+					case FUNCTION_COMMIT_ITEM :
+						insertHistory("AfterCommit");
+						break;
+					default :
+						break;
+				}			
+			}
+			protected function GOT_sqlError(event:SQLErrorEvent):void
+			{
+				currentStatus = false;
+				addText("SQL Error on function: " + currentFunction + " using table: " + currentTable);
+				addText("ERROR: " + event.toString());
+				updateDBBtn.enabled = true;
+				if (currentFunction == FUNCTION_INSERT_MAIN || currentFunction == FUNCTION_INSERT_ITEM)
+					myDict.sqlConn.commit();
+			}
+			private function GOT_MinimizeEvent(event:MinimizeEvent):void
+			{
+				stage.nativeWindow.minimize();
+				stage.nativeWindow.visible = false
+			}
+			private function setDesktopIcon():Boolean
+			{
+				var myFlag:Boolean = true;
+				if (myFlag)
+					NativeApplication.nativeApplication.icon.bitmaps = [new trayImage];
+				else
+					NativeApplication.nativeApplication.icon.bitmaps = [new greyImage];
+				return myFlag;
+			}
+			
+			private function resizeApp():void
+			{
+				if (currentState == SAP_STATE_EMPTY)
+					return;
+				if (stillStartingFlag)
+					return;
+				var numTiles:int;
+				var myHeight:Number;
+				if (!this.visible)
+					return;
+				myHeight = 100 + (46 * numTiles);
+				if (myHeight > SAP_NORMAL_HEIGHT)
+					myHeight = SAP_NORMAL_HEIGHT;
+				this.minHeight = myHeight;
+				this.height = myHeight;
+				statusLbl.setStyle("fontStyle","normal");
+				statusLbl.text = "Home Message List";
+			}
+			private function GOT_ourMonitor(event:StatusEvent):void
+			{
+				if (stillStartingFlag)
+					return;
+				if (ourMonitor.available)
+				{
+					connectedFlag = true;
+					if(NativeApplication.supportsSystemTrayIcon)
+					{
+						if (setDesktopIcon())
+							NativeApplication.nativeApplication.icon.bitmaps = [new trayImage];
+						else
+							NativeApplication.nativeApplication.icon.bitmaps = [new greyImage];
+					}
+				}
+				else
+				{
+					stage.nativeWindow.minimize();
+					stage.nativeWindow.visible = false;
+					connectedFlag = false;
+					if(NativeApplication.supportsSystemTrayIcon)
+					{
+						NativeApplication.nativeApplication.icon.bitmaps = [new greyImage];
+					}
+				}
+			}
+			private function GOT_OKCancel(event:PopUpEvent):void
+			{
+				var myResult:String;
+				myResult = event.data as String;
+				if(myResult == "-1")
+					return;
+			}
+			private function refreshNormal():void
+			{
+				//Add in refresh stuff	
+			}
+
+			private function GOT_StateChangeEvent(event:StateChangeEvent):void
+			{
+				stage.nativeWindow.visible = true; 
+				switch (event.newState)
+				{
+					case SAP_STATE_EMPTY :
+						stage.nativeWindow.restore();
+						stage.nativeWindow.activate();
+						break;	
+					case SAP_STATE_STARTUP :
+						//						refreshPropGrid();
+				}
+			}
+			private function appClose(event:Event):void
+			{
+			}
+			private function GOT_AboutEvent(event:AboutAlert):void
+			{
+				var myStr:String = "Version is " + SAP_VERSION;
+				sAlert("NES",myStr);
+			}
+			private function setupSystemTray():void
+			{
+				if(NativeApplication.supportsSystemTrayIcon){
+					NativeApplication.nativeApplication.icon.bitmaps = [new trayImage];
+					var systray:SystemTrayIcon = NativeApplication.nativeApplication.icon as SystemTrayIcon;
+					systray.tooltip = "NES";
+					systray.menu = iconMenu;
+					systray.addEventListener(MouseEvent.CLICK,systemTrayClick);
+					systray.addEventListener(MouseEvent.MOUSE_DOWN,systemTrayClick);
+					systray.addEventListener(MouseEvent.DOUBLE_CLICK,systemTrayClick);
+				}
+				function systemTrayClick (event:Event):void
+				{
+					var myToast:toastCOB;
+					if (connectedFlag)
+					{
+						stage.nativeWindow.visible = true;
+						this.currentState = SAP_STATE_STARTUP;
+						stage.nativeWindow.activate();
+						resizeApp();
+					}
+					else
+					{
+						if (myToast != null)
+							return;
+						myToast = new toastCOB;
+						myToast.maximizable = false;
+						myToast.minimizable = false;
+						myToast.resizable = false;
+						myToast.transparent = false;
+						myToast.type = NativeWindowType.LIGHTWEIGHT;
+						myToast.systemChrome = NativeWindowSystemChrome.NONE;
+						myToast.showStatusBar = false;
+						myToast.alwaysInFront = true;						
+						myToast.open(false);
+					}
+				}
+				if(NativeApplication.supportsDockIcon){
+					iconLoader.contentLoaderInfo.addEventListener(Event.COMPLETE,iconLoadComplete);
+					iconLoader.load(new URLRequest("icons/AIRApp_128.png"));
+					var dock:DockIcon = NativeApplication.nativeApplication.icon as DockIcon;
+					dock.menu = iconMenu;
+					macOSFlag = true;
+				}
+				var menuItemAbout:NativeMenuItem = iconMenu.addItem(new NativeMenuItem("About"));
+				menuItemAbout.addEventListener(Event.SELECT,function(event:Event):void{
+					stage.nativeWindow.visible = true;
+					stage.nativeWindow.activate();
+					this.currentState = SAP_STATE_STARTUP;
+					var myAA:AboutAlert = new AboutAlert(AboutAlert.NES_ABOUT_EVENT);
+					dispatchEvent(myAA);
+				});
+				var restoreCommand:NativeMenuItem = iconMenu.addItem(new NativeMenuItem("Open NES"));
+				restoreCommand.addEventListener(Event.SELECT,function(event:Event):void{
+					stage.nativeWindow.visible = true;
+					this.currentState = SAP_STATE_STARTUP;
+					stage.nativeWindow.activate();
+				});
+				var seperator:NativeMenuItem = iconMenu.addItem(new NativeMenuItem("",true));
+				var exitCommand:NativeMenuItem = iconMenu.addItem(new NativeMenuItem("Exit"));
+				exitCommand.addEventListener(Event.SELECT,tryExit);
+			}
+			private function tryExit(event:Event=null):void
+			{
+				this.currentState = SAP_STATE_EMPTY;
+				checkClose("Do you really want to quit?","Are you sure?")
+			}
+			private function checkClose(myText:String,myHeader:String):void
+			{
+				okCancelClose(myHeader,"NES");
+			}
+			private function checkCloseOutcome(event:PopUpEvent):void
+			{
+				var myString:String
+				myString = event.data as String;
+				if(myString == "-1")
+					this.currentState = SAP_STATE_STARTUP;
+				else
+					stage.nativeWindow.close();
+			}
+			private function iconLoadComplete(event:Event):void
+			{
+				NativeApplication.nativeApplication.icon.bitmaps = [event.target.content.bitmapData];
+			}
+			/*
+			//
+			//			Utility Functions
+			//
+			*/
+			private function sAlert(myTitle:String, myText:String):void
+			{
+				var myPopup:sAlertCOB = new sAlertCOB();
+				myPopup.myTitle = myTitle;
+				myPopup.myText = myText;
+				myPopup.open(this, true);
+				PopUpManager.centerPopUp(myPopup);
+			}
+			protected function systemError(myText:String):void
+			{
+				var myError:systemErrorCOB = new systemErrorCOB();
+				myError.myText = myText;
+				myError.addEventListener("close",GOT_SystemErrorClose);
+				myError.open(this, true);
+				PopUpManager.centerPopUp(myError);
+			}
+			private function GOT_SystemErrorClose(event:PopUpEvent):void
+			{
+				this.close();
+			}
+			private function okCancelDelete(myTitle:String, myText:String):void
+			{
+				var myOKCancel:sOKCancelCOB = new sOKCancelCOB();
+				myOKCancel.myTitle = myTitle;
+				myOKCancel.myText = myText;
+				myOKCancel.addEventListener("close",GOT_OKCancel);
+				myOKCancel.open(this, true);
+				PopUpManager.centerPopUp(myOKCancel);
+			}
+			private function okCancelClose(myTitle:String, myText:String):void
+			{
+				var myOKCancel:sOKCancelCOB = new sOKCancelCOB();
+				myOKCancel.myTitle = myTitle;
+				myOKCancel.myText = myText;
+				myOKCancel.addEventListener("close",checkCloseOutcome);
+				myOKCancel.open(this, true);
+				PopUpManager.centerPopUp(myOKCancel);
+			}
+			private  function GOT_AppMove(event:Event):void
+			{
+			}
+			private function GOT_AppResize(event:Event):void
+			{
+			}
+			private function GOT_updateDBBtn(event:MouseEvent):void
+			{
+				firstDate = new Date();
+				addText("Fetching data...");
+				myDownload.send();
+				updateDBBtn.enabled = false;
+			}
+		]]>
+	</fx:Script>
+	<s:BorderContainer  id="chromeContainerBC" top="0" bottom="0" right="0" left="0"
+						backgroundImage="{myChrome}">
+		<s:BorderContainer id="headerBC"
+						   includeIn="emptySTATE, startupSTATE"
+						   y="0" left="1" right="1" height="50" borderVisible="false"
+						   mouseDown="nativeWindow.startMove()"
+						   styleName="headerBC">
+			<s:backgroundFill>
+				<s:LinearGradient rotation="90">
+					<s:GradientEntry id="headerBCStart" color="{SAP_START_GRADIENT}" />
+					<s:GradientEntry id ="headerBCEnd" color="{SAP_END_GRADIENT}" />
+				</s:LinearGradient>
+			</s:backgroundFill>
+			<s:Button id="exitBtn"
+					  includeIn="startupSTATE"
+					  right="1" top="1" width="22" height="22" label="x"
+					  click="tryExit()" 
+					  skinClass="skins.closeButton"
+					  toolTip="Click to hide"/>
+			<s:Label id="myLogo" includeIn="emptySTATE, startupSTATE" left="5" bottom="2"
+					 color="#FFFFFF" fontSize="24" text="National Energy Services"
+					 text.startupSTATE="NES SAP UPDATE">
+			</s:Label>
+		</s:BorderContainer>
+		<s:BorderContainer id="mainBodyBC"
+						   includeIn="emptySTATE, startupSTATE"
+						   left="1" right="1" top="60" bottom="1">
+			<s:borderStroke>
+				<s:LinearGradientStroke weight="3" rotation="90">
+					<s:GradientEntry  color="{SAP_START_GRADIENT}"/>
+					<s:GradientEntry  color="{SAP_END_GRADIENT}"/>
+				</s:LinearGradientStroke>
+			</s:borderStroke>
+			<s:backgroundFill>
+				<s:LinearGradient rotation="90">
+					<s:GradientEntry color ="{SAP_START_GRADIENT}"/>
+					<s:GradientEntry color ="{SAP_END_GRADIENT}"/>
+				</s:LinearGradient>
+			</s:backgroundFill>
+			<s:VGroup id="VGmainBody" width="100%" height="100%">
+				<s:HGroup id="HGStatus" width="100%" >					
+					<s:Label id="statusLbl"
+							 includeIn="emptySTATE, startupSTATE"
+							 left="1" top="1" height="16" color="{SAP_HTML_LBL_TEXT}"
+							 fontFamily="Arial" fontWeight="normal" text="Loading please wait..."
+							 textAlign="left" verticalAlign="middle"
+							 width="100%"/>
+					<s:Button id="updateDBBtn" includeIn="startupSTATE" label="Update DB"
+							  click="GOT_updateDBBtn(event)" skinClass="skins.myButtonSkin"
+							  toolTip="Update Boiler Database"/>
+				</s:HGroup>
+				<s:HGroup id="mainHG" includeIn="startupSTATE, emptySTATE"
+						  width="100%" height="100%">
+					<s:DataGrid id="customerDG" includeIn="startupSTATE" width="100%" height="100%"
+								alpha="1" color="#000000" dataProvider="{statusAC}"
+								fontFamily="Arial" fontSize="10"
+								fontStyle="normal" fontWeight="bold">
+						<s:columns>
+							<s:ArrayList>
+								<s:GridColumn dataField="activity" headerText="Activity" width="250"></s:GridColumn>
+								<s:GridColumn dataField="actualTime" headerText="When" width="120"></s:GridColumn>
+								<s:GridColumn dataField="timeTaken" headerText="Time Taken" width="70"></s:GridColumn>
+							</s:ArrayList>
+						</s:columns>
+					</s:DataGrid>					
+				</s:HGroup>				
+			</s:VGroup>				
+		</s:BorderContainer>
+		<s:Image id="resizeImage" bottom="1" right="1" width="14" height="12" 					
+				 mouseDown="nativeWindow.startResize()" source="img/dragToken.png" />
+	</s:BorderContainer>
+</s:WindowedApplication>

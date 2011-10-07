@@ -1,0 +1,1100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Module xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  xmlns:s="library://ns.adobe.com/flex/spark" 
+		  xmlns:mx="library://ns.adobe.com/flex/mx" width="400" height="300"
+		  initialize="initModule();">
+	<fx:Declarations>
+		<fx:Array id="tableList">
+			<fx:Object tableName = "databaseRevision" tableNO="001" tableType="control"/>
+			<fx:Object tableName = "manufacturers" tableNO="102" tableType="table"/>
+			<fx:Object tableName = "boiler2009" tableNO="104" tableType="table"/>
+			<fx:Object tableName = "boilerSolidFuel" tableNO="121" tableType="table"/>
+			<fx:Object tableName = "boilerCooker" tableNO="131" tableType="table"/>
+			<fx:Object tableName = "coGenSAP2005" tableNO="141" tableType="table"/>
+			<fx:Object tableName = "coGenSAP2009" tableNO="142" tableType="table"/>
+			<fx:Object tableName = "indicativeCosts" tableNO="181" tableType="table"/>
+			<fx:Object tableName = "fuelPrices" tableNO="191" tableType="table"/>
+			<fx:Object tableName = "manufacturers2" tableNO="301" tableType="table"/>
+			<fx:Object tableName = "flueGasHeatRecovery" tableNO="312" tableType="table"/>
+			<fx:Object tableName = "centMEVnMVHR" tableNO="321" tableType="table"/>
+			<fx:Object tableName = "MEVDecent" tableNO="322" tableType="table"/>
+			<fx:Object tableName = "MVInUseFactors" tableNO="329" tableType="table"/>
+			<fx:Object tableName = "wasteWaterHeatRecovery" tableNO="351" tableType="table"/>
+			<fx:Object tableName = "heatPump" tableNO="361" tableType="table"/>			
+			<fx:Object tableName = "lastRow" tableNO="999" tableType="empty"/>
+			<fx:Object tableName = "postcode" tableNO="171" tableType="table"/>
+			<fx:Object tableName = "updateHistory" tableNO="-1" tableType="table"/>			
+		</fx:Array>
+		<fx:Array id="tableColumns">
+			<fx:Object tableName="updateHistory" colName="tableName" colType="TEXT" colIndex="PRIMARY KEY" itemRec="false"/> 
+			<fx:Object tableName="updateHistory" colName="formatNO" colType="INTEGER" colIndex="false" itemRec="false"/> 
+			<fx:Object tableName="updateHistory" colName="revisionNO" colType="INTEGER" colIndex="false" itemRec="false"/> 
+			<fx:Object tableName="updateHistory" colName="revisionDate" colType="TEXT" colIndex="false" itemRec="false"/> 
+			<fx:Object tableName="updateHistory" colName="recCount" colType="INTEGER" colIndex="false" itemRec="false"/> 
+			<fx:Object tableName="fuelPrices" colName="fuelPriceID" colType="INTEGER" colIndex="PRIMARY KEY AUTOINCREMENT" itemRec="false"/> 
+			<fx:Object tableName="fuelPrices" colName="fuelCategory" colType="INTEGER" colIndex="false" itemRec="false"/> 
+			<fx:Object tableName="fuelPrices" colName="fuelType" colType="INTEGER" colIndex="false" itemRec="false"/> 
+			<fx:Object tableName="fuelPrices" colName="standingCharge" colType="INTEGER" colIndex="false" itemRec="false"/> 
+			<fx:Object tableName="fuelPrices" colName="fuelPrice" colType="REAL" colIndex="false" itemRec="false"/> 
+			<fx:Object tableName="fuelPrices" colName="entryUpdate" colType="TEXT" colIndex="false" itemRec="false"/> 
+			<fx:Object tableName="indicativeCosts" colName="replacementType" colType="TEXT" colIndex="PRIMARY KEY" itemRec="false"/> 
+			<fx:Object tableName="indicativeCosts" colName="recommendationNO" colType="INTEGER" colIndex="false" itemRec="false"/> 
+			<fx:Object tableName="indicativeCosts" colName="costRange" colType="INTEGER" colIndex="false" itemRec="false"/> 
+			<fx:Object tableName="indicativeCosts" colName="costType" colType="INTEGER" colIndex="false" itemRec="false"/> 
+			<fx:Object tableName="indicativeCosts" colName="BORCostDataA" colType="REAL" colIndex="false" itemRec="false"/> 
+			<fx:Object tableName="indicativeCosts" colName="BORCostDataB" colType="REAL" colIndex="false" itemRec="false"/> 
+			<fx:Object tableName="indicativeCosts" colName="TORCostDataA" colType="REAL" colIndex="false" itemRec="false"/> 
+			<fx:Object tableName="indicativeCosts" colName="TORCostDataB" colType="REAL" colIndex="false" itemRec="false"/> 
+			<fx:Object tableName="indicativeCosts" colName="entryUpdate" colType="TEXT" colIndex="false" itemRec="false"/> 
+			<fx:Object tableName="manufacturers" colName="mIndex" colType="TEXT" colIndex="PRIMARY KEY" itemRec="false"/> 
+			<fx:Object tableName="manufacturers" colName="currentName" colType="TEXT" colIndex="false" itemRec="false"/> 
+			<fx:Object tableName="manufacturers" colName="address1" colType="TEXT" colIndex="false" itemRec="false"/> 
+			<fx:Object tableName="manufacturers" colName="address2" colType="TEXT" colIndex="false" itemRec="false"/> 
+			<fx:Object tableName="manufacturers" colName="street" colType="TEXT" colIndex="false" itemRec="false"/> 
+			<fx:Object tableName="manufacturers" colName="locality" colType="TEXT" colIndex="false" itemRec="false"/> 
+			<fx:Object tableName="manufacturers" colName="town" colType="TEXT" colIndex="false" itemRec="false"/> 
+			<fx:Object tableName="manufacturers" colName="adminArea" colType="TEXT" colIndex="false" itemRec="false"/> 
+			<fx:Object tableName="manufacturers" colName="postcode" colType="TEXT" colIndex="false" itemRec="false"/> 
+			<fx:Object tableName="manufacturers" colName="country" colType="TEXT" colIndex="false" itemRec="false"/> 
+			<fx:Object tableName="manufacturers" colName="phoneNumber" colType="TEXT" colIndex="false" itemRec="false"/> 
+			<fx:Object tableName="manufacturers" colName="URL" colType="TEXT" colIndex="false" itemRec="false"/> 
+			<fx:Object tableName="manufacturers" colName="entryUpdate" colType="TEXT" colIndex="false" itemRec="false"/> 
+			<fx:Object tableName="manufacturers2" colName="mIndex" colType="TEXT" colIndex="PRIMARY KEY" itemRec="false"/> 
+			<fx:Object tableName="manufacturers2" colName="currentName" colType="TEXT" colIndex="false" itemRec="false"/> 
+			<fx:Object tableName="manufacturers2" colName="address1" colType="TEXT" colIndex="false" itemRec="false"/> 
+			<fx:Object tableName="manufacturers2" colName="address2" colType="TEXT" colIndex="false" itemRec="false"/> 
+			<fx:Object tableName="manufacturers2" colName="street" colType="TEXT" colIndex="false" itemRec="false"/> 
+			<fx:Object tableName="manufacturers2" colName="locality" colType="TEXT" colIndex="false" itemRec="false"/> 
+			<fx:Object tableName="manufacturers2" colName="town" colType="TEXT" colIndex="false" itemRec="false"/> 
+			<fx:Object tableName="manufacturers2" colName="adminArea" colType="TEXT" colIndex="false" itemRec="false"/> 
+			<fx:Object tableName="manufacturers2" colName="postcode" colType="TEXT" colIndex="false" itemRec="false"/> 
+			<fx:Object tableName="manufacturers2" colName="country" colType="TEXT" colIndex="false" itemRec="false"/> 
+			<fx:Object tableName="manufacturers2" colName="phoneNumber" colType="TEXT" colIndex="false" itemRec="false"/> 
+			<fx:Object tableName="manufacturers2" colName="URL" colType="TEXT" colIndex="false" itemRec="false"/> 
+			<fx:Object tableName="manufacturers2" colName="entryUpdate" colType="TEXT" colIndex="false" itemRec="false"/> 
+			<fx:Object tableName="flueGasHeatRecovery" colName="fIndex" colType="TEXT" colIndex="PRIMARY KEY" itemRec="false"/>
+			<fx:Object tableName="flueGasHeatRecovery" colName="mInidex" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="flueGasHeatRecovery" colName="entryUpdate" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="flueGasHeatRecovery" colName="mnfName" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="flueGasHeatRecovery" colName="brandName" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="flueGasHeatRecovery" colName="modelName" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="flueGasHeatRecovery" colName="modelQualifier" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="flueGasHeatRecovery" colName="firstYearMnf" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="flueGasHeatRecovery" colName="finalYearMnf" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="flueGasHeatRecovery" colName="appFuel" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="flueGasHeatRecovery" colName="testFuel" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="flueGasHeatRecovery" colName="appBoilerType" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="flueGasHeatRecovery" colName="integralOnly" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="flueGasHeatRecovery" colName="heatStore" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="flueGasHeatRecovery" colName="heatStoreTotalVol" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="flueGasHeatRecovery" colName="heatStoreRecapVol" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="flueGasHeatRecovery" colName="heatStoreLossRate" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="flueGasHeatRecovery" colName="directTotalHeatRecov" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="flueGasHeatRecovery" colName="directUsefulHeatRecov" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="flueGasHeatRecovery" colName="powerConsumption" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="flueGasHeatRecovery" colName="PVModule" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="flueGasHeatRecovery" colName="cableLoss" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="flueGasHeatRecovery" colName="NumEquations" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="flueGasHeatRecovery" colName="coefficientA" colType="TEXT" colIndex="false" itemRec="true"/>
+			<fx:Object tableName="flueGasHeatRecovery" colName="coefficientB" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="flueGasHeatRecovery" colName="coefficientC" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="flueGasHeatRecovery" colName="coefficientAOther" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="flueGasHeatRecovery" colName="coefficientBOther" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="flueGasHeatRecovery" colName="coefficientCOther" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="wasteWaterHeatRecovery" colName="wIndex" colType="TEXT" colIndex="PRIMARY KEY" itemRec="false"/>
+			<fx:Object tableName="wasteWaterHeatRecovery" colName="mnfRef" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="wasteWaterHeatRecovery" colName="entryUpdate" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="wasteWaterHeatRecovery" colName="mnfName" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="wasteWaterHeatRecovery" colName="brandName" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="wasteWaterHeatRecovery" colName="modelName" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="wasteWaterHeatRecovery" colName="modelQualifier" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="wasteWaterHeatRecovery" colName="firstYearMnf" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="wasteWaterHeatRecovery" colName="finalYearMnf" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="wasteWaterHeatRecovery" colName="efficiencyMixer" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="wasteWaterHeatRecovery" colName="utilisationFactor" colType="REAL" colIndex="false" itemRec="false"/>			
+			<fx:Object tableName="postcode" colName="pcID" colType="INTEGER" colIndex="PRIMARY KEY AUTOINCREMENT" itemRec="false"/>			
+			<fx:Object tableName="postcode" colName="area" colType="TEXT" colIndex="false" itemRec="false"/>			
+			<fx:Object tableName="postcode" colName="district" colType="TEXT" colIndex="false" itemRec="false"/>			
+			<fx:Object tableName="postcode" colName="region" colType="TEXT" colIndex="false" itemRec="false"/>			
+			<fx:Object tableName="postcode" colName="country" colType="TEXT" colIndex="false" itemRec="false"/>			
+			<fx:Object tableName="postcode" colName="heightAboveSeaLevel" colType="REAL" colIndex="false" itemRec="false"/>			
+			<fx:Object tableName="postcode" colName="windSpeed" colType="REAL" colIndex="false" itemRec="false"/>			
+			<fx:Object tableName="postcode" colName="entryUpdate" colType="TEXT" colIndex="false" itemRec="false"/>			
+			<fx:Object tableName="heatPump" colName="hpIndex" colType="TEXT" colIndex="PRIMARY KEY" itemRec="false"/>
+			<fx:Object tableName="heatPump" colName="mnfRef" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="heatPump" colName="entryUpdate" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="heatPump" colName="apmVersion" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="heatPump" colName="mnfName" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="heatPump" colName="brandName" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="heatPump" colName="modelName" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="heatPump" colName="modelQualifier" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="heatPump" colName="firstYearMnf" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="heatPump" colName="finalYearMnf" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="heatPump" colName="dataQuality" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="heatPump" colName="fuelType" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="heatPump" colName="emitterType" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="heatPump" colName="flueType" colType="INTEGER" colIndex="false" itemRec="false"/>			
+			<fx:Object tableName="heatPump" colName="heatSource" colType="INTEGER" colIndex="false" itemRec="false"/>			
+			<fx:Object tableName="heatPump" colName="serviceProvision" colType="INTEGER" colIndex="false" itemRec="false"/>			
+			<fx:Object tableName="heatPump" colName="HWVessel" colType="INTEGER" colIndex="false" itemRec="false"/>			
+			<fx:Object tableName="heatPump" colName="vesselVolume" colType="REAL" colIndex="false" itemRec="false"/>			
+			<fx:Object tableName="heatPump" colName="vesselHeatLoss" colType="REAL" colIndex="false" itemRec="false"/>			
+			<fx:Object tableName="heatPump" colName="vesselHXArea" colType="REAL" colIndex="false" itemRec="false"/>			
+			<fx:Object tableName="heatPump" colName="efficencyClass" colType="TEXT" colIndex="false" itemRec="false"/>			
+			<fx:Object tableName="heatPump" colName="waterHeatEfficieny" colType="REAL" colIndex="false" itemRec="false"/>			
+			<fx:Object tableName="heatPump" colName="netElecConsumed" colType="REAL" colIndex="false" itemRec="false"/>			
+			<fx:Object tableName="heatPump" colName="revesible" colType="INTEGER" colIndex="false" itemRec="false"/>			
+			<fx:Object tableName="heatPump" colName="EER" colType="REAL" colIndex="false" itemRec="false"/>			
+			<fx:Object tableName="heatPump" colName="maxOutput" colType="REAL" colIndex="false" itemRec="false"/>			
+			<fx:Object tableName="heatPump" colName="heatingDuration" colType="INTEGER" colIndex="false" itemRec="false"/>			
+			<fx:Object tableName="heatPump" colName="MEVorMVHR" colType="TEXT" colIndex="false" itemRec="false"/>			
+			<fx:Object tableName="heatPump" colName="compensatorEffect" colType="INTEGER" colIndex="false" itemRec="false"/>			
+			<fx:Object tableName="heatPump" colName="seperateCirculator" colType="INTEGER" colIndex="false" itemRec="false"/>			
+			<fx:Object tableName="heatPump" colName="numAirflowRates" colType="INTEGER" colIndex="false" itemRec="false"/>			
+			<fx:Object tableName="heatPump" colName="airflowRate1" colType="REAL" colIndex="false" itemRec="false"/>			
+			<fx:Object tableName="heatPump" colName="airflowRate2" colType="REAL" colIndex="false" itemRec="false"/>			
+			<fx:Object tableName="heatPump" colName="airflowRate3" colType="REAL" colIndex="false" itemRec="false"/>			
+			<fx:Object tableName="heatPump" colName="airflowRate4" colType="REAL" colIndex="false" itemRec="false"/>			
+			<fx:Object tableName="heatPump" colName="airflowRate5" colType="REAL" colIndex="false" itemRec="false"/>			
+			<fx:Object tableName="heatPump" colName="numPlantSizeRatios" colType="INTEGER" colIndex="false" itemRec="false"/>			
+			<fx:Object tableName="heatPump" colName="plantSizeRatio" colType="REAL" colIndex="false" itemRec="true"/>			
+			<fx:Object tableName="heatPump" colName="spaceHeatEfficiency" colType="TEXT" colIndex="false" itemRec="false"/>			
+			<fx:Object tableName="heatPump" colName="elecConsumed" colType="REAL" colIndex="false" itemRec="false"/>			
+			<fx:Object tableName="heatPump" colName="runningHours" colType="TEXT" colIndex="false" itemRec="false"/>	
+			<fx:Object tableName="centMEVnMVHR" colName="cIndex" colType="TEXT" colIndex="PRIMARY KEY" itemRec="false"/>
+			<fx:Object tableName="centMEVnMVHR" colName="mnfRef" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="centMEVnMVHR" colName="entryUpdate" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="centMEVnMVHR" colName="mnfName" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="centMEVnMVHR" colName="brandName" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="centMEVnMVHR" colName="modelName" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="centMEVnMVHR" colName="modelQualifier" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="centMEVnMVHR" colName="firstYearMnf" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="centMEVnMVHR" colName="finalYearMnf" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="centMEVnMVHR" colName="mainType" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="centMEVnMVHR" colName="integralOnly" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="centMEVnMVHR" colName="ductingType" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="centMEVnMVHR" colName="testDuctSize" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="centMEVnMVHR" colName="summerByPass" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="centMEVnMVHR" colName="exhaustConfigs" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="centMEVnMVHR" colName="addWetRooms" colType="INTEGER" colIndex="false" itemRec="true"/>
+			<fx:Object tableName="centMEVnMVHR" colName="testFlowRate" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="centMEVnMVHR" colName="fanSpeedSetting" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="centMEVnMVHR" colName="fanPower" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="centMEVnMVHR" colName="HXEfficiency" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="MEVDecent" colName="mIndex" colType="TEXT" colIndex="PRIMARY KEY" itemRec="false"/>
+			<fx:Object tableName="MEVDecent" colName="mnfRef" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="MEVDecent" colName="entryUpdate" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="MEVDecent" colName="mnfName" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="MEVDecent" colName="brandName" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="MEVDecent" colName="modelName" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="MEVDecent" colName="modelQualifier" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="MEVDecent" colName="firstYearMnf" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="MEVDecent" colName="finalYearMnf" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="MEVDecent" colName="mainType" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="MEVDecent" colName="ductingType" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="MEVDecent" colName="numConfigs" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="MEVDecent" colName="configuration" colType="TEXT" colIndex="false" itemRec="true"/>
+			<fx:Object tableName="MEVDecent" colName="testFlowRate" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="MEVDecent" colName="fanSpeedSetting" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="MEVDecent" colName="fanPower" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="MVInUseFactors" colName="systemType" colType="INTEGER" colIndex="PRIMARY KEY" itemRec="false"/>
+			<fx:Object tableName="MVInUseFactors" colName="SFPAdjust1Rigid" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="MVInUseFactors" colName="SFPAdjust1NoDuct" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="MVInUseFactors" colName="MVHREff1UnnsltdDuct" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="MVInUseFactors" colName="MVHREff1InsltdDuct" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="MVInUseFactors" colName="SRPAdjust2FlexDuct" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="MVInUseFactors" colName="SFPAdjust2Rigid" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="MVInUseFactors" colName="MVHREff2UnnsltdDuct" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="MVInUseFactors" colName="MVHREff2InsltdDuct" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="MVInUseFactors" colName="entryUpdate" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="pIndex" colType="TEXT" colIndex="PRIMARY KEY" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="mnfRef" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="entryUpdate" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="mnfName" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="brandName" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="modelName" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="modelQualifier" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="boilerID" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="firstYearMnf" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="finalYearMnf" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="fuelType" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="mountingPosition" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="exposureRating" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="mainType" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="subsidiaryType" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="subsidiaryTypeTable" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="subsidiaryTypeIndex" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="Condensing" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="flueType" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="fanAssistance" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="boilerPowerBOR" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="boilerPowerTOR" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="energyEffncyClass" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="annualSsnlEffncy" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="SAPWntrSsnlEffncy" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="SAPSmmrSsnlEffncy" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="HotWaterEffncy" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="SAP2009SsnlEffncy" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="EffncyCategory" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="TestGas4LPG" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="TestCorrection4LPG" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="SAPEquationUsed" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="Ignition" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="BurnerControl" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="ElecPwrWhileBlrFiring" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="ElecPwrWhileBlrNotFiring" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="storeType" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="storeLossInTest" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="seperateStore" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="storeBlrVolume" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="storeSolarVolume" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="storeInsulateThickness" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="storeInsulateType" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="storeTemp" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="storeHeatLossRate" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="seperateDHWTests" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="FuelEnergy4HWTest1" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="ElecEnergy4HWTest1" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="RejectEnergyR1HWTest1" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="StoreLossFactorF1" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="FuelEnergy4HWTest2" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="ElecEnergy4HWTest2" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="RejectEnergyR2HWTest2" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="StoreLossFactorF2" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="RejectFactorF3" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="KeepHotFacility" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="KeepHotTimer" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boiler2009" colName="KeepHotElecHeater" colType="REAL" colIndex="false" itemRec="false"/>	
+			<fx:Object tableName="boilerSolidFuel" colName="pIndex" colType="TEXT" colIndex="PRIMARY KEY" itemRec="false"/>
+			<fx:Object tableName="boilerSolidFuel" colName="mnfRef" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerSolidFuel" colName="entryUpdate" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerSolidFuel" colName="mnfName" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerSolidFuel" colName="brandName" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerSolidFuel" colName="modelName" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerSolidFuel" colName="modelQualifier" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerSolidFuel" colName="boilerID" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerSolidFuel" colName="firstYearMnf" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerSolidFuel" colName="finalYearMnf" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerSolidFuel" colName="fuelType" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerSolidFuel" colName="mainType" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerSolidFuel" colName="flueType" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerSolidFuel" colName="fanAssistance" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerSolidFuel" colName="fuelFeed" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerSolidFuel" colName="boilerPowerBOR" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerSolidFuel" colName="boilerPowerTOR" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerSolidFuel" colName="boilerPwrMinBurnRate" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerSolidFuel" colName="EnergyEffcnyClass" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerSolidFuel" colName="SAP2009SsnlEffncy" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerSolidFuel" colName="EffncyCategory" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerSolidFuel" colName="MsrdFuelInputNomPwr" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerSolidFuel" colName="MsrdHeat2WtrNomPwr" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerSolidFuel" colName="MsrdHeat2RoomNomPwr" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerSolidFuel" colName="MsrdFuelInputPartPwr" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerSolidFuel" colName="MsrdFuel2WaterPartPwr" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerSolidFuel" colName="MsrdHeat2RoomPartPwr" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerSolidFuel" colName="PleTestMEthod" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerSolidFuel" colName="BurnerControl" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerSolidFuel" colName="ElecPwrBoilerFiring" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerSolidFuel" colName="ElecPwrBoilerNotFiring" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerSolidFuel" colName="AddVentilationRate" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerCooker" colName="pIndex" colType="TEXT" colIndex="PRIMARY KEY" itemRec="false"/>
+			<fx:Object tableName="boilerCooker" colName="mnfRef" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerCooker" colName="entryUpdate" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerCooker" colName="mnfName" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerCooker" colName="brandName" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerCooker" colName="modelName" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerCooker" colName="modelQualifier" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerCooker" colName="productID" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerCooker" colName="firstYearMnf" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerCooker" colName="finalYearMnf" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerCooker" colName="fuelType" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerCooker" colName="mainType" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerCooker" colName="condesing" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerCooker" colName="flueType" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerCooker" colName="fanAssistance" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerCooker" colName="boilerPowerBOR" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerCooker" colName="boilerPowerTOR" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerCooker" colName="CaseLossFullPwr" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerCooker" colName="fullOutputPwr" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerCooker" colName="energyEffncyClass" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerCooker" colName="annualSsnlEffcny" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerCooker" colName="SAPWntrSsnlEffncy" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerCooker" colName="SAPSmmrSsnlEffncy" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerCooker" colName="HWEffncy" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerCooker" colName="SAP2005SsnlEffncy" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerCooker" colName="EffncyCategory" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerCooker" colName="testGas4LPG" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerCooker" colName="SAPEquation" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerCooker" colName="ignition" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerCooker" colName="burnerControl" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerCooker" colName="ElecPwrBoilerFiring" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="boilerCooker" colName="ElecPwrBoilerNotFiring" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="pIndex" colType="TEXT" colIndex="PRIMARY KEY" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="mnfRef" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="mnfName" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="brandName" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="modelName" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="modelQualifier" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="cogenPackageID" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="firstYearMnf" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="finalYearMnf" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="fuelType" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="mainType" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="condesing" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="flueType" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="cogenPowerBOR" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="cogenPowerTOR" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="energyEffncyBand" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="energyEffncyClass" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="DHWService" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="seperateDHWstore" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="seperateCirculator" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="plantSizeRatioA" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="annualHeat4SpaceA" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="annualHeat4DHWA" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="auxHeatRequiredA" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="heatSsnlThermEffncyA" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="summerSsnlThermEffncyA" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="heatSsnlElecCnsmdA" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="summerSsnlElecCnsmdA" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="daysXSHeat16to9A" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="daysXSHeat24to9A" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="daysXSHeat24to16A" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="plantSizeRatioB" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="annualHeat4SpaceB" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="annualHeat4DHWB" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="auxHeatRequiredB" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="heatSsnlThermEffncyB" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="summerSsnlThermEffncyB" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="heatSsnlElecCnsmdB" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="summerSsnlElecCnsmdB" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="daysXSHeat16to9B" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="daysXSHeat24to9B" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="daysXSHeat24to16B" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="plantSizeRatioC" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="annualHeat4SpaceC" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="annualHeat4DHWC" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="auxHeatRequiredC" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="heatSsnlThermEffncyC" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="summerSsnlThermEffncyC" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="heatSsnlElecCnsmdC" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="summerSsnlElecCnsmdC" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="daysXSHeat16to9C" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="daysXSHeat24to9C" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="daysXSHeat24to16C" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="plantSizeRatioD" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="annualHeat4SpaceD" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="annualHeat4DHWD" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="auxHeatRequiredD" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="heatSsnlThermEffncyD" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="summerSsnlThermEffncyD" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="heatSsnlElecDnsmdD" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="summerSsnlElecDnsmdD" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="daysXSHeat16to9D" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="daysXSHeat24to9D" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="daysXSHeat24to16D" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2005" colName="entryUpdate" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2009" colName="pIndex" colType="TEXT" colIndex="PRIMARY KEY" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2009" colName="mnfRef" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2009" colName="entryUpdate" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2009" colName="APMVersion" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2009" colName="mnfName" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2009" colName="brandName" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2009" colName="modelName" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2009" colName="modelQualifier" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2009" colName="firstYearMnf" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2009" colName="finalYearMnf" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2009" colName="fuelType" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2009" colName="condesing" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2009" colName="flueType" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2009" colName="serviceProvision" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2009" colName="HWVessel" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2009" colName="energyEffncyClass" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2009" colName="waterHeatEffncySch2" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2009" colName="netElecConsumedHWSch2" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2009" colName="waterHeatEffncySch3" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2009" colName="netElecConsumedHWSch3" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2009" colName="cogenPwrBOR" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2009" colName="cogenPwrTOR" colType="TEXT" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2009" colName="heatingDuration" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2009" colName="seperateCirculator" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2009" colName="numPlanSizeRatios" colType="INTEGER" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2009" colName="plantSizeRatio" colType="REAL" colIndex="false" itemRec="true"/>
+			<fx:Object tableName="coGenSAP2009" colName="spaceHeatEffncy" colType="REAL" colIndex="false" itemRec="false"/>
+			<fx:Object tableName="coGenSAP2009" colName="netElecConsumed" colType="REAL" colIndex="false" itemRec="false"/>			
+		</fx:Array>
+		<fx:Array id="tableIndices">
+			<fx:Object indexName="fuelPriceIDX" tableName="fuelPrices" colNumbers="1,2" indexType="UNIQUE"/>
+			<fx:Object indexName="postcodeIDC" tableName="postcode" colNumbers="1,2,3,4" indexType="UNIQUE"/>
+		</fx:Array>
+
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import flash.events.*;
+			
+			import mx.collections.ArrayCollection;
+			
+			import myContainers.ColumnStructure;
+			import myContainers.IndexStructure;
+			import myContainers.TableListItem;
+			import myContainers.TableStructure;
+			import myContainers.UpdateHistory;
+			public  var DBTableAC:ArrayCollection = new ArrayCollection();
+			public  var DBControlAC:ArrayCollection = new ArrayCollection();
+			public  var myDB:File;
+			public  var returnText:String;
+			public  var tablesCount:int;
+			public  var badStatus:Boolean = false;
+			public  var stillProcessing:Boolean = false;
+			public var sqlStmnt:SQLStatement = new SQLStatement();
+			public var sqlConn:SQLConnection = new SQLConnection();
+			public var myItemsAC:ArrayCollection = new ArrayCollection();
+			public var myMainStack:Array = new Array();
+			public var myItemStack:Array = new Array();
+			private var itemDataList:Array = new Array();
+			private var myItems:ArrayCollection = new ArrayCollection();
+			private var currentTable:String;
+			private var currentAction:String;
+//			private var myPrimaryCol:ColumnStructure; 
+			private var inAC:ArrayCollection = new ArrayCollection();
+
+			public function initModule():void
+			{
+				var tableName:String;
+				var tableNO:int;
+				var tableType:String;
+				tableType = "stuff";
+				for (var i:int=0; i < tableList.length; i++)
+				{
+					tableName = tableList[i].tableName;
+					tableNO = tableList[i].tableNO;
+					tableType = tableList[i].tableType;
+					var myDBTable:TableStructure = new TableStructure(true, tableName, tableNO, tableType);
+					if (tableType == "table")
+						DBTableAC.addItem(myDBTable);
+					else
+						DBControlAC.addItem(myDBTable);
+				}
+				tablesCount = DBTableAC.length;
+			}
+			private function setBadStatus(setClose:Boolean=false):void
+			{
+				badStatus = true;
+				stillProcessing = false;
+				if (setClose)
+					sqlClose();
+					
+			}
+			public function insertFromAC(inTable:String, inAC:ArrayCollection):void
+			{
+				returnText="";
+				stillProcessing = true;
+				currentTable = inTable;
+				this.inAC = inAC;
+				return;
+			}
+			public function buildMainInsert(inTable:String, inputArray:Array):Array
+			{
+				var myPrimaryCol:ColumnStructure = getPrimaryColumn(inTable, "buildMainInsert");
+				var allColAC:ArrayCollection = getAllColumns(inTable);
+				myItems = getInsertItemColumns(inTable);
+				var myPrimaryValue:String
+				var mySQL:String;
+				var myCols:String = "(";
+				var myValues:String = "(";
+				var itemRec:Boolean = false;
+				myMainStack = new Array();
+				myItemStack = new Array();
+				for (var k:int=0; k < inputArray.length; k++)
+				{	
+					itemDataList = new Array();
+					var mainDataList:Array = inputArray[k].split(",");
+					if (mainDataList[0] == "100091")
+						k = k;
+					mySQL = "INSERT INTO " + inTable + " ";
+					myCols = "(";
+					myValues = "(";
+					itemRec = false;
+					for (var i:int=0; i < mainDataList.length;i++)
+					{
+						if (i < allColAC.length)
+							if (allColAC[i].itemRec)
+								itemRec = true;
+						if (itemRec)
+						{
+							itemDataList.push(mainDataList[i]);
+						}
+						else
+						if (mainDataList[i].length != 0)
+						{
+							{
+								if (i < allColAC.length)
+								{
+									myCols = myCols + allColAC[i].colName + ", ";
+									myValues = myValues + formatColValue(mainDataList[i],allColAC[i].colType) + ", ";
+									if (myPrimaryCol.valid)
+										if (allColAC[i].colName == myPrimaryCol.colName)
+											myPrimaryValue = mainDataList[i];
+								}
+							}
+						}
+					}
+					mySQL = mySQL + myCols + " lastUpdated) VALUES " + myValues + "\"" + nowStr() + "\")"; 
+					myMainStack.push(mySQL);					
+					if (itemDataList.length > 0 )
+					{
+						itemDataList.unshift(myPrimaryValue);
+						buildItemInsert(inTable, itemDataList);						
+					}
+				}
+				return myMainStack;
+			}
+			public function buildItemInsert(inTable:String, inputArray:Array):void
+			{
+				var colCount:int = 0;
+				var myPrimaryValue:String = inputArray.shift();
+				var mySQL:String;
+				var myCols:String;
+				var myValues:String;
+				var myPrimaryCol:ColumnStructure = getPrimaryColumn(inTable,"buildInsertItem");
+				if (!myPrimaryCol.valid)
+					return;
+				var itemColAC:ArrayCollection = getItemColumns(inTable);
+				var itemCount:int = itemColAC.length - 1;
+				var itemDataList:Array = new Array();
+				for (var j:int=0; j < inputArray.length; ++ j)
+				{
+					if (colCount == 0)
+					{
+						mySQL = "INSERT INTO " + inTable + "Items "
+						myCols = "(" + myPrimaryCol.colName + ", ";
+						myValues = "(" + formatColValue(myPrimaryValue, myPrimaryCol.colType) + ", " ;
+					}
+					if (inputArray[j].length != 0)
+					{					
+						myCols = myCols + itemColAC[colCount].colName  + ", ";
+						myValues = myValues + formatColValue(inputArray[j],itemColAC[colCount].colType) + ", ";
+					}
+					if (colCount < itemCount)
+						colCount++;
+					else
+					{
+						mySQL = mySQL + myCols + " lastUpdated) VALUES " + myValues + " \"" + nowStr() + "\")\n";
+						colCount = 0;
+						myItemStack.push(mySQL);
+					}
+				}
+			}
+			private function processItems():void
+			{	
+				var myPrimaryValue:String;
+				var mySQL:String;
+				var myCols:String;
+				var myValues:String;
+				var colCount:int = 0;
+				var myPrimaryCol:ColumnStructure = getPrimaryColumn(currentTable,"processItems");
+				var itemCount:int = myItems.length - 1;
+				for (var m:int=0; m < myItemsAC.length;m++)
+				{
+					itemDataList = myItemsAC[m];
+					myPrimaryValue = itemDataList.shift()
+					for (var j:int=0; j < itemDataList.length; ++ j)
+					{
+						if (colCount == 0)
+						{
+							mySQL = "INSERT INTO " + currentTable + "Items "
+							myCols = "(" + myPrimaryCol.colName + ", ";
+							myValues = "(" + formatColValue(myPrimaryValue, myPrimaryCol.colType) + ", " ;
+						}
+						if (itemDataList[j].length != 0)
+						{					
+							myCols = myCols + myItems[colCount].colName  + ", ";
+							myValues = myValues + formatColValue(itemDataList[j],myItems[colCount].colType) + ", ";
+						}
+						if (colCount < itemCount)
+							colCount++;
+						else
+						{
+							mySQL = mySQL + myCols + " lastUpdated) VALUES " + myValues + " \"" + nowStr() + "\")\n";
+							colCount = 0;
+							if (!sqlExecute(mySQL))
+							{
+								setBadStatus();
+								return;
+							}
+						}
+					}
+					if (colCount > 0 )
+					{
+						mySQL = mySQL + myCols + " lastUpdated) VALUES " + myValues + " \"" + nowStr() + "\")\n";
+						myItemStack.push(mySQL);
+					}
+				}	
+				if (!sqlClose())
+					setBadStatus();
+				return;
+			}
+			private function unStackMain():void
+			{
+				if (myMainStack.length == 0)
+				{
+					sqlStmnt.removeEventListener(SQLEvent.RESULT,GOT_sqlStmntMainResult);
+					sqlStmnt.removeEventListener(SQLErrorEvent.ERROR,GOT_sqlStmntError);
+					sqlConn.commit();
+					if (myItemsAC.length == 0)
+					{
+						sqlClose();
+						stillProcessing = false;
+						return;
+					}
+					else
+//					Must be item records insert them.				
+					{
+						sqlClose();
+						unStackItems();
+					}
+
+					stillProcessing = false;
+					return;
+				}
+				var mySQL:String = myMainStack.pop();
+				if (!sqlStmnt.hasEventListener(SQLEvent.RESULT))
+					sqlStmnt.addEventListener(SQLEvent.RESULT,GOT_sqlStmntMainResult);
+				if (!sqlStmnt.hasEventListener(SQLErrorEvent.ERROR))
+					sqlStmnt.addEventListener(SQLErrorEvent.ERROR,GOT_sqlStmntError);
+				sqlStmnt.execute();
+			}
+			private function GOT_sqlStmntMainResult(event:SQLEvent):void
+			{
+				unStackMain();
+			}
+			private function GOT_sqlStmntError(event:SQLErrorEvent):void
+			{
+				returnText = event.toString();
+				setBadStatus(true);					
+			}
+			private function unStackItems():void
+			{
+				if (myItemStack.length == 0)
+				{
+					sqlStmnt.removeEventListener(SQLEvent.RESULT,GOT_sqlStmntItemResult);
+					sqlStmnt.removeEventListener(SQLErrorEvent.ERROR,GOT_sqlStmntError);
+					sqlConn.commit();
+					if (myItemsAC.length == 0)
+					{
+						sqlClose();
+						stillProcessing = false;
+						return;
+					}
+					else
+						//					Must be item records insert them.				
+					{
+						sqlClose();
+						unStackItems();
+					}
+					
+					stillProcessing = false;
+					return;
+				}
+				var mySQL:String = myMainStack.pop();
+				if (!sqlStmnt.hasEventListener(SQLEvent.RESULT))
+					sqlStmnt.addEventListener(SQLEvent.RESULT,GOT_sqlStmntMainResult);
+				if (!sqlStmnt.hasEventListener(SQLErrorEvent.ERROR))
+					sqlStmnt.addEventListener(SQLErrorEvent.ERROR,GOT_sqlStmntError);
+				sqlStmnt.execute();
+			}
+			private function GOT_sqlStmntItemResult(event:SQLEvent):void
+			{
+				unStackMain();
+			}
+
+			public function dropTable(inTable:String):void
+			{
+				var mySQL:String = "DROP TABLE IF EXISTS " + inTable + ";";
+				sqlStmnt.text = mySQL;
+				sqlStmnt.execute();
+			}
+			public function dropItem(inTable:String):void
+			{
+				var mySQL:String = "DROP TABLE IF EXISTS " + inTable + "Items;";
+				sqlStmnt.text = mySQL;
+				sqlStmnt.execute();
+			}
+			public function createTable(inTable:String):void
+			{
+				var mainCols:ArrayCollection = getMainCols4Create(inTable);
+				var mySQL:String = "CREATE TABLE " + inTable + " ( ";
+				for (var i:int=0; i < mainCols.length; i++)
+				{
+					mySQL = mySQL + mainCols[i].colName + " " + mainCols[i].colType + " ";
+					if (mainCols[i].colIndex != false)
+						mySQL = mySQL + mainCols[i].colIndex;
+					mySQL = mySQL + ", "
+				}
+				mySQL = mySQL + "lastUpdated TEXT );";
+				sqlStmnt.text = mySQL;
+				sqlStmnt.execute();
+			}
+			public function createItem(inTable:String):void
+			{
+				returnText = "";
+				var mySQL:String
+				var myPrimary:ColumnStructure = getPrimaryColumn(inTable,"CreateItem");
+				var myItems:ArrayCollection = getItemColumns(inTable);
+				if (!myPrimary.valid)
+				{
+					returnText = "ERROR: Failed to return primary key for table: "+ inTable;
+					return;
+				}
+				mySQL = "CREATE TABLE " + inTable + "Items (ID INTEGER  PRIMARY KEY AUTOINCREMENT, " +
+					myPrimary.colName + " " + myPrimary.colType + ", ";
+				for (var i:int=0; i < myItems.length; i++)
+				{
+					mySQL = mySQL + myItems[i].colName + " " + myItems[i].colType + " ";
+					if (myItems[i].colIndex != false)
+						mySQL = mySQL + myItems[i].colIndex;
+					mySQL = mySQL + ", "
+				}
+				mySQL = mySQL + "lastUpdated TEXT );";
+				sqlStmnt.text = mySQL;
+				sqlStmnt.execute();
+			}
+			public function insertHistory(tableName:String, revisionNO:int,inDate:String,formatNO:int=-1, recCount:int=0):void
+			{
+				var lastUpdated:String = nowStr();
+				var myDate:Date = new Date();
+				var mySQL:String
+				if (formatNO == -1)
+					mySQL = "INSERT INTO updateHistory(tableName, revisionNO, revisionDate, lastUpdated) VALUES (" +
+						"\"" + tableName + "\", " +
+						"" + revisionNO.toString() + ", " +
+						"\"" + inDate + "\", " +
+						"\"" + lastUpdated + "\" ); ";
+				else
+					mySQL = "INSERT INTO updateHistory(tableName, formatNO, revisionNO, revisionDate, recCount, lastUpdated) VALUES (" +
+						"\"" + tableName + "\", " +
+						"" + formatNO.toString() + ", " +
+						"" + revisionNO.toString() + ", " +
+						"\"" + inDate + "\", " +
+						"" + recCount.toString()  + ", " +
+						"\"" + lastUpdated + "\" ); ";
+				sqlStmnt.text = mySQL;
+				sqlStmnt.execute();
+			}
+			public function createIndex(inIndex:IndexStructure):void
+			{
+				var mySQL:String = "CREATE " + inIndex.indexType + " INDEX 'main'.'" + inIndex.indexName +
+					"' ON '" + inIndex.tableName + "' ("; 
+				for (var i:int=0;i < inIndex.colNames.length; i++)
+				{
+					if (i == 0)
+						mySQL = mySQL + "'" +inIndex.colNames[i] + "'";
+					else
+						mySQL = mySQL + ", '" +inIndex.colNames[i] + "'";
+				}
+				mySQL = mySQL + ");";
+				sqlStmnt.text = mySQL;
+				sqlStmnt.execute();
+			}
+			public function getTableNameAT(i:int):String
+			{
+				if (i >= DBTableAC.length)
+					return null;
+				return DBTableAC[i].tableName;
+			}
+			public function getTableName(tableNO:int):String
+			{
+				for (var i:int=0; i < DBTableAC.length; i++)
+				{
+					if (DBTableAC[i].tableNO == tableNO)
+						return DBTableAC[i].tableName;
+				}
+				return "EOF";
+			}
+			public function getMainCols4Create(inTable:String):ArrayCollection
+			{
+				var myAC:ArrayCollection = new ArrayCollection();
+				for (var i:int=0; i < tableColumns.length; i++)
+				{
+					if (tableColumns[i].itemRec && tableColumns[i].tableName == inTable)
+						return myAC;
+					if (tableColumns[i].tableName == inTable)
+						myAC.addItem(tableColumns[i]); 
+				}
+				return myAC;
+	
+			}
+			public function getIndex(inTable:String):IndexStructure
+			{
+				var myIndex:IndexStructure = new IndexStructure();
+				var myAC:ArrayCollection = getMainCols4Create(inTable);
+				for (var i:int=0; i < tableIndices.length;i++)
+				{
+					if (tableIndices[i].tableName == inTable)
+					{
+						myIndex = new IndexStructure (true,tableIndices[i].indexName,
+							inTable,tableIndices[i].indexType, tableIndices[i].colNumbers);
+						var myColNumbers:Array = tableIndices[i].colNumbers.split(",");
+						var myColNames:Array = new Array();
+						for (var j:int=0; j < myColNumbers.length; j++)
+						{
+							var iCol:int = int(myColNumbers[j]);
+							myColNames.push(myAC[iCol].colName);
+						}
+						myIndex.colNames = myColNames; 
+					}
+				}
+				return myIndex;
+			}
+			public function getTableListItem(tableNO:int):TableListItem
+			{
+				var myTLI:TableListItem;
+				for (var i:int=0; i < tableList.length;i++)
+				{
+					if (tableList[i].tableNO == tableNO)
+					{
+						myTLI = new TableListItem(tableList[i].tableName, tableNO, tableList[i].tableType);
+						return myTLI;
+					}
+				}
+				myTLI = new TableListItem("EOF", -1, "EOF");
+				return myTLI;
+			}
+			public function getAllColumns(tableName:String):ArrayCollection
+			{
+				var myAC:ArrayCollection = new ArrayCollection();
+				for (var i:int=0;i < tableColumns.length; i++)
+				{
+					var myIndex:String = tableColumns[i].colIndex;
+					if (tableColumns[i].tableName == tableName)
+						if (myIndex.search("AUTOINCREMENT") == -1)						
+							myAC.addItem(tableColumns[i]); 
+				}
+				return myAC;
+			}
+			
+			public function getDBTable(tableName:String):TableStructure
+			{
+				for (var i:int=0; i < DBTableAC.length;i++)
+				{
+					if (DBTableAC[i].tableName == tableName)
+						return DBTableAC[i] as TableStructure;
+				}
+				return new TableStructure();
+			}
+			public function getTableLength():Number
+			{
+				return DBTableAC.length;
+			}
+			public function formatColValue(colValue:String, colType:String):String
+			{
+				if (colType == "TEXT")
+					return "\"" + colValue + "\"";
+				return colValue;
+			}
+			public function checkTable(myObj:Object, myTable:String):Boolean
+			{
+				if (myObj.tableName == myTable)
+					return true;
+				return false;
+			}
+			public function checkColumns(tableName:String):Boolean
+			{
+				for (var i:int=0; i < tableColumns.length;i++)
+				{
+					if (tableColumns[i].tableName == tableName)
+						return true;
+				}
+				return false;
+			}
+			public function getPrimaryColumn(tableName:String, source:String):ColumnStructure
+			{
+				for (var i:int=0; i < tableColumns.length;i++)
+				{
+					if (tableColumns[i].tableName == tableName)
+						if (tableColumns[i].colIndex.search("PRIMARY") > -1)
+						{
+							var myCS:ColumnStructure = new ColumnStructure(true,tableName,
+								tableColumns[i].colName,
+								tableColumns[i].colType,
+								tableColumns[i].colIndex,
+								tableColumns[i].itemRec);
+							return myCS;
+							break;
+						}
+				}
+				return new ColumnStructure();
+			}
+			public function sqlSynchOpen(source:String):Boolean
+			{
+				returnText = "source";
+				if (sqlConn.connected)
+					return true;
+				try
+				{
+					sqlConn.open(myDB);
+				}
+				catch (error:SQLError)
+				{
+					returnText = "ERROR: Open " + sqlStmnt.text + error.toString();
+					return false;
+				}
+				sqlStmnt.sqlConnection = sqlConn;
+				return true				
+			}
+			public function sqlAsynchOpen():Boolean
+			{
+				try
+				{
+					sqlConn.openAsync(myDB);
+				}
+				catch (error:SQLError)
+				{
+					returnText = "ERROR: Open Asynch" + sqlStmnt.text + error.toString();
+					return false;
+				}
+				sqlStmnt.sqlConnection = sqlConn;
+				return true				
+			}
+			
+			public function sqlClose():Boolean
+			{
+				try
+				{
+					sqlConn.close();
+				}
+				catch (error:SQLError)
+				{
+					returnText = returnText + "ERROR: Close " + sqlStmnt.text + error.toString();
+					return false;
+				}				
+				return true				
+			}
+			protected function sqlExecute(inSQL:String):Boolean
+			{
+				returnText = "";
+				sqlStmnt.sqlConnection = sqlConn;
+				sqlStmnt.text = inSQL;
+				try
+				{
+					sqlStmnt.execute();
+				}
+				catch (error:SQLError)
+				{
+					returnText = "ERROR: " + sqlStmnt.text + error.toString();
+					sqlConn.close();
+					return false;
+				}				
+				return true				
+			}
+			public function sqlBegin():Boolean
+			{
+				returnText = "";
+				try
+				{
+					sqlConn.begin();
+				}
+				catch (error:SQLError)
+				{
+					returnText = "ERROR: sqlConn OpenBegin BEGIN" + sqlStmnt.text + error.toString();
+					sqlConn.close();
+					return false;
+				}
+				sqlStmnt.sqlConnection = sqlConn;
+				return true;				
+			}
+			public function sqlCommit():Boolean
+			{
+				returnText = "";
+				try
+				{
+					sqlConn.commit();
+				}
+				catch (error:SQLError)
+				{
+					returnText = "ERROR: sqlBeginCommit " + sqlStmnt.text + error.toString();
+					sqlConn.close();
+					return false;
+				}
+				return true				
+			}
+			protected function retDate(inYear:String,inMonth:String,inDay:String):Date
+			{
+				var myMonth:String = padZero(inMonth);
+				var myDay:String = padZero(inDay);
+				var dateString:String = inYear + "/" + myMonth + "/" + "/" + myDay; 
+				var myDate:Date = new Date(dateString);
+				return myDate;
+			}
+			public function strDate(inYear:String,inMonth:String,inDay:String):String
+			{
+				var myMonth:String = padZero(inMonth);
+				var myDay:String = padZero(inDay);
+				return inYear + "/" + myMonth + "/" + myDay;
+			}
+			public function nowStr():String
+			{
+				var myDate:Date = new Date();
+				var myYear:String = myDate.fullYear.toString();
+				var myMonth:String = padZero(myDate.month.toString());
+				var myDay:String = padZero(myDate.day.toString());
+				var myHour:String = padZero(myDate.hours.toString());
+				var myMin:String = padZero(myDate.minutes.toString());
+				var mySec:String = padZero(myDate.seconds.toString());
+				return myYear + "/" + myMonth + "/" + myDay + " " + myHour + ":" + myMin + ":" + mySec;
+			}
+			public function padZero (inString:String):String
+			{
+				if (inString.length == 1)
+					return "0" + inString;
+				return inString;
+			}
+			public function getMainColumns(myTable:String):ArrayCollection
+			{
+				var myAC:ArrayCollection = new ArrayCollection();
+				for (var i:int=0; i < tableColumns.length; i++)
+				{
+					if (tableColumns[i].itemRec && tableColumns[i].tableName == myTable)
+						return myAC;
+					if (tableColumns[i].tableName == myTable)
+					{
+						var myIndex:String = tableColumns[i].colIndex;
+						if (myIndex.search("AUTOINCREMENT") == -1)
+							myAC.addItem(tableColumns[i]); 
+					}
+				}
+				return myAC;
+			}
+			public function getItemColumns(inTable:String):ArrayCollection
+			{
+				var myAC:ArrayCollection = new ArrayCollection();
+				var foundItems:Boolean = false;
+				for (var i:int=0; i < tableColumns.length; i++)
+				{
+					if (tableColumns[i].tableName == inTable)
+					{
+						if (tableColumns[i].itemRec)
+							foundItems = true;
+						if (foundItems)
+							myAC.addItem(tableColumns[i]);
+					}
+				}
+				return myAC;
+			}
+			public function getInsertItemColumns(inTable:String):ArrayCollection
+			{
+				var myAC:ArrayCollection = new ArrayCollection();
+				var foundItemRec:Boolean=false
+				for (var i:int=0; i < tableColumns.length; i++)
+				{
+					if (tableColumns[i].itemRec && tableColumns[i].tableName == inTable)
+						foundItemRec = true;
+					if (foundItemRec && tableColumns[i].tableName == inTable)
+						myAC.addItem(tableColumns[i]); 
+				}
+				return myAC;
+			}
+		]]>
+	</fx:Script>
+</s:Module>
