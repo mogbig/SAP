@@ -78,8 +78,8 @@
 			private static const FUNCTION_COMMIT_ITEM:String = "COMMIT_ITEM";
 			private static const TABLE_TYPE_TABLE:String = "table";
 			private static const TABLE_TYPE_CONTROL:String = "control";			
-			//			public static const SAP_DOWNLOAD_URL:String = "http://www.sedbuk.com/data1/pcdf2009.dat";
-			public static const SAP_DOWNLOAD_URL:String = "http://localhost/pcdf2009.dat";
+			public static const SAP_DOWNLOAD_URL:String = "http://www.sedbuk.com/data1/pcdf2009.dat";
+//			public static const SAP_DOWNLOAD_URL:String = "http://localhost/pcdf2009.dat";
 			public static const NEWS_OTHER:String = "nesOther"; //SM 23/09/2011 v1.1.6
 			public static const SAP_EOF:String = "EOF";
 			//Images			
